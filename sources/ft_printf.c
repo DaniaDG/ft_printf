@@ -12,49 +12,79 @@
 
 #include "ft_printf.h"
 
+int		get_flags(char *ptr, t_flags *flags)
+{
+	int		i = 0;
+
+	if (!ptr[i] || ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c')
+		return (0);
+	if (ptr[i] == '0')
+	{
+		flags->zero = 1;
+		i++;
+	}
+	while (ptr[i] && ptr[i] != 'd' && ptr[i] != 's' && ptr[i] != 'c')
+	{
+		if (ptr[i] == '-')
+			flags->minus = 1;
+		if (ptr[i] == '+')
+			flags->plus = 1;
+		if (ptr[i] == ' ')
+			flags->space = 1;
+		if (ptr[i] >= '1' && ptr[i] <= '9')
+		{
+			flags->width = ft_atoi(ptr);
+			while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')
+				i++;
+			i--;
+		}
+		i++;
+	}
+	return (i + 1);
+}
+
+void	free_flags(t_flags *flags)
+{
+	flags->zero = 0;
+	flags->plus = 0;
+	flags->minus = 0;
+	flags->width = 0;
+	flags->space = 0;
+}
+
+int		ft_print_int(int arg, t_flags *flags)
+{
+	if (flags->plus && arg > 0)
+	{
+		write(1, "+", 1);
+		ft_putnbr(arg);
+	}
+	free_flags(flags);
+	return (0);
+}
+
 int		ft_printf(const char *format, ...)
 {
 	va_list		arg_ptr;
 	char		*ptr;
-	char		c = 92;
+	t_flags		flags;
 
 	va_start(arg_ptr, format);
+	free_flags(&flags);
 	ptr = (char *)format;
 	while (*ptr)
 	{
-		if (*ptr != '%' && *ptr != '\\')
+		if (*ptr != '%')
 			write(1, ptr, 1);
-		else if (*ptr == 92)
+		else
 		{
-			ptr++;
-			if (*ptr == 'n')
-				write(1, "\n", 1);
-			if (*ptr == 't')
-				write(1, "\t", 1);
-			if (*ptr == 'v')
-				write(1, "\v", 1);
-			if (*ptr == 92)
-				write(1, &c, 1);
-			if (*ptr == '\"')
-				write(1, "\"", 1);
-			if (*ptr == '\'')
-				write(1, "\'", 1);
-			if (*ptr == '\b')
-				write(1, "\b", 1);
-			if (*ptr == '\r')
-				write(1, "\r", 1);
-		}
-		else if (*ptr == '%')
-		{
-			ptr++;
+			ptr += get_flags(ptr + 1, &flags);
 			if (*ptr == 'd')
-				ft_putnbr(va_arg(arg_ptr, int));
-			if (*ptr == 'c')
-				ft_putchar(va_arg(arg_ptr, int));
+				ft_print_int(va_arg(arg_ptr, int), &flags);
 			if (*ptr == 's')
 				ft_putstr(va_arg(arg_ptr, char*));
-			if (*ptr == '%')
-				write(1, "%", 1);
+			if (*ptr == 'c')
+				ft_putchar(va_arg(arg_ptr, int));
 		}
 		ptr++;
 	}

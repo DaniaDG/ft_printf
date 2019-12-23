@@ -20,9 +20,11 @@ int		main()
 	char	c = 'A';
 
 
-	ft_printf("%d %d \t%d \\%s %c %%", a, b, 125, "Hello", c);
+	ft_printf("%+d %d \t%d \\%s %c %%", a, b, 125, "Hello my friend", c);
 	printf("\n\n");
-	   printf("%d %d \t%d \\%s %c %%", a, b, 125, "Hello", c);
+	   printf("%+d %d \t%d \\%s %c %%", a, b, 125, "Hello my friend", c);
+	
 	printf("\n\n");
+	printf("%123d", 12);
 	return (0);
 }

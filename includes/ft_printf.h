@@ -21,5 +21,13 @@
 
 int		ft_printf(const char *format, ...);
 
+typedef struct			s_flags
+{
+	int		zero;
+	int		minus;
+	int		plus;
+	int		width;
+	int		space;
+}						t_flags;
 
 #endif
