@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 10:00:20 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/23 10:00:21 by bsausage         ###   ########.fr       */
+/*   Created: 2019/09/04 12:11:27 by bsausage          #+#    #+#             */
+/*   Updated: 2019/09/04 12:14:28 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-int		main()
+char	*ft_strncat(char *dest, const char *src, size_t count)
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
+	size_t	i;
+	size_t	k;
 
-
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
-
-
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
-	return (0);
+	i = 0;
+	k = 0;
+	while (dest[i])
+		i++;
+	while (src[k] && k < count)
+	{
+		dest[i] = src[k];
+		k++;
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 10:00:20 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/23 10:00:21 by bsausage         ###   ########.fr       */
+/*   Created: 2019/09/07 14:15:44 by bsausage          #+#    #+#             */
+/*   Updated: 2019/09/07 14:15:46 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-int		main()
+char	*ft_strnew(size_t size)
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
+	char	*str;
 
-
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
-
-
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
-	return (0);
+	if ((size + 1) == 0)
+		return (NULL);
+	if (!(str = (char*)malloc(sizeof(char) * (size + 1))))
+		return (NULL);
+	ft_bzero(str, size + 1);
+	return (str);
 }

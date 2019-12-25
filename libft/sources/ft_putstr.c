@@ -1,38 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 10:00:20 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/23 10:00:21 by bsausage         ###   ########.fr       */
+/*   Created: 2019/09/06 18:36:48 by bsausage          #+#    #+#             */
+/*   Updated: 2019/09/06 18:36:54 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-int		main()
+void	ft_putstr(char const *s)
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
+	int	i;
 
-
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
-
-
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
-	return (0);
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i])
+		write(1, &s[i++], 1);
 }

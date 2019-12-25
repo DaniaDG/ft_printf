@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 10:00:20 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/23 10:00:21 by bsausage         ###   ########.fr       */
+/*   Created: 2019/09/07 14:33:44 by bsausage          #+#    #+#             */
+/*   Updated: 2019/09/07 14:33:45 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-int		main()
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
+	char	*ptr;
+	char	*result;
 
-
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
-
-
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
-	return (0);
+	if (!s1 || !s2)
+		return (NULL);
+	ptr = (char*)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!ptr)
+		return (NULL);
+	result = ptr;
+	while (*s1)
+		*ptr++ = *s1++;
+	while (*s2)
+		*ptr++ = *s2++;
+	*ptr = '\0';
+	return (result);
 }

@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 10:00:20 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/23 10:00:21 by bsausage         ###   ########.fr       */
+/*   Created: 2019/09/08 14:42:48 by bsausage          #+#    #+#             */
+/*   Updated: 2019/09/08 14:42:49 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
-
-int		main()
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
+	unsigned int	i;
 
-
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
-
-
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
-	return (0);
+	i = 0;
+	if (!s || !f)
+		return ;
+	while (*s)
+		f(i++, s++);
 }

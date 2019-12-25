@@ -1,38 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 10:00:20 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/23 10:00:21 by bsausage         ###   ########.fr       */
+/*   Created: 2019/09/06 12:41:18 by bsausage          #+#    #+#             */
+/*   Updated: 2019/09/06 12:50:45 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-int		main()
+char	*ft_strnstr(const char *str, const char *to_find, size_t n)
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
+	size_t i;
+	size_t k;
 
-
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
-
-
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
+	i = 0;
+	k = 0;
+	if (!to_find[i])
+		return ((char*)str);
+	while (str[i] && i < n)
+	{
+		while (str[i + k] == to_find[k] && (i + k) < n)
+		{
+			if ((!str[i + k] && !to_find[k]))
+				return ((char*)(str + i));
+			k++;
+		}
+		if (!to_find[k])
+			return ((char*)(str + i));
+		i++;
+		k = 0;
+	}
 	return (0);
 }

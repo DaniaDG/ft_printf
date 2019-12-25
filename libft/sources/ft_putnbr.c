@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 10:00:20 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/23 10:00:21 by bsausage         ###   ########.fr       */
+/*   Created: 2019/09/06 20:18:15 by bsausage          #+#    #+#             */
+/*   Updated: 2019/09/06 20:18:16 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "ft_printf.h"
+#include "libft.h"
 
-int		main()
+void	ft_putnbr(int n)
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
+	int		i;
+	char	num[10];
 
-
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
-
-
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
-	return (0);
+	if (n == 0)
+	{
+		write(1, "0", 1);
+		return ;
+	}
+	i = 0;
+	if (n < 0)
+	{
+		num[i++] = (n % 10) * (-1) + '0';
+		n = (n / 10) * (-1);
+		write(1, "-", 1);
+	}
+	while (n)
+	{
+		num[i++] = n % 10 + '0';
+		n = n / 10;
+	}
+	i--;
+	while (i >= 0)
+		write(1, &num[i--], 1);
 }
