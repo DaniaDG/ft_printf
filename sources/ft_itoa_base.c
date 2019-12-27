@@ -25,8 +25,6 @@ int		num_of_letters(int value, int base)
 	int i;
 
 	i = 0;
-	if (value < 0 && base == 10)
-		i++;
 	if (!value)
 		return (1);
 	while (value != 0)
@@ -54,8 +52,6 @@ char	*ft_itoa_base(int value, int base)
 			str[0] = '0';
 		if (value < 0)
 		{
-			if (base == 10)
-				str[0] = '-';
 			str[len--] = rem_letter((value % base) * (-1));
 			value = (value / base) * (-1);
 		}
