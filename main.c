@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-//#include "ft_printf.h"
+#include "ft_printf.h"
 
 int		main()
 {
@@ -20,13 +20,13 @@ int		main()
 	//char	c = 'A';
 	int		i;
 
-	i = printf("%+7.3d", -6); 
+	i = printf("%0+5d", 42);     
 	printf("\ni = %d", i);
 
 	printf("\n********55******\n");
 
-	//i = ft_printf("%-05d", 42); 
-	//printf("\ni = %d", i);
+	i = ft_printf("%0+5d", 42);
+	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));
 	return (0);

@@ -108,8 +108,8 @@ int		ft_printf(const char *format, ...)
 			ptr += get_flags(ptr + 1, &flags);
 			if (*ptr == 'd')
 				res += ft_print_int(va_arg(arg_ptr,int), &flags);
-			if (*ptr == 's')
-				res += ft_print_string(va_arg(arg_ptr, char*), &flags);
+			//if (*ptr == 's')
+			//	res += ft_print_string(va_arg(arg_ptr, char*), &flags);
 		}
 		ptr++;
 	}

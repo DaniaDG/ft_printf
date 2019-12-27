@@ -26,15 +26,35 @@ int		ft_abs(int a)
 	return (-a);
 }
 
-char	*n_zeros(int len)
+char	*n_char(char c, int n, int *len)
 {
 	char	*str;
+	int		tmp;
 
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	str[len--] = '\0';
-	while (len--)
-		str[len] = '0';
+	if (n <= 0)
+		return (NULL);
+	tmp = n;
+	str = (char *)malloc(sizeof(char) * (n + 1));
+	str[n--] = '\0';
+	while (n >= 0)
+		str[n--] = c;
+	*len = *len + tmp;
 	return (str);
+}
+
+void	print_and_free_int_struct(t_integer *number)
+{
+	if (number->left)
+		write(1, number->left, ft_strlen(number->left));
+	if (number->sign)
+		write(1, &(number->sign), 1);
+	if (number->zeros)
+		write(1, number->zeros, ft_strlen(number->zeros));
+	if (number->digits)
+		write(1, number->digits, ft_strlen(number->digits));
+	if (number->right)
+		write(1, number->right, ft_strlen(number->right));
+	//free all struct!!!
 }
 
 int		ft_print_int(int arg, t_flags *flags)
@@ -42,8 +62,11 @@ int		ft_print_int(int arg, t_flags *flags)
 	t_integer	number;
 	int			len;
 
-	//getting sign of a number
-
+	number.sign = 0;
+	number.left = NULL;
+	number.right = NULL;
+	number.digits = NULL;
+	number.zeros = NULL;
 	if (arg < 0)
 		number.sign = '-';
 	else
@@ -55,151 +78,29 @@ int		ft_print_int(int arg, t_flags *flags)
 	}
 	//
 	number.digits = ft_itoa_base(ft_abs(arg), 10);
-	len = ft_strlen(num);
-	if (flags->precision > len)
-		number.zeros = n_zeros(flags->precision - len)
-
-
-
-
-	//len = ft_strlen(num) + (number.sign == '-' || number.sign == '+' || number.sign == ' ' ? 1 : 0);
-}
-
-
-/*int		ft_print_int(int arg, t_flags *flags)
-{
-	int		len;
-	int		field;
-	char	*num;
-	char	*str;
-	char	*tmp;
-	char	sign;
-	
-
-	num = ft_itoa_base(ft_abs(arg), 10);
-	if (arg == 0 && flags->precision == -1)
-		len == 0;
-	else
-		len = ft_strlen(num);
-	field = ft_max(ft_max(flags->width, flags->precision), len + (flags->plus | flags->space));
-	str = (char *)malloc(sizeof(char) * (field + 1));
-	str[len] = '\0';
-	if (arg >= 0)
+	len = ft_strlen(number.digits);
+	if (flags->dot)
 	{
-		if (flags->precision >= len)
-		{
-			tmp = n_zeros(flags->precision - len)
-		}
+		number.zeros = n_char('0', flags->precision - len, &len);
+		len += number.sign ? 1 : 0;
+		if (flags->minus)
+			number.right = n_char(' ', flags->width - len, &len);
+		else
+			number.left = n_char(' ', flags->width - len, &len);
 	}
-
-
-
-}*/
-
-
-
-
-
-
-
-/*int		ft_print_int(int arg, t_flags *flags)
-{
-	int		len;
-	int		n = 0;
-
-	len = ft_intlen(arg);
-		if (arg >= 0)
-		{
-			if (flags->zero && flags->plus && !flags->minus)
-			{
-				write(1, "+", 1);
-				ft_print_nchar('0', flags->width - len - 1);
-				ft_putnbr(arg);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;
-			}
-			if (flags->zero && !flags->plus && !flags->minus)
-			{
-				ft_print_nchar('0', flags->width - len);
-				ft_putnbr(arg);
-				n = flags->width - len <= 0 ? 0 : flags->width - len;
-				n = n + len;
-			}
-			else if (!flags->zero && flags->plus && !flags->minus)
-			{
-				ft_print_nchar(' ', flags->width - len - 1);
-				write(1, "+", 1);
-				ft_putnbr(arg);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;
-			}
-			else if (!flags->zero && flags->plus && flags->minus)
-			{
-				write(1, "+", 1);
-				ft_putnbr(arg);
-				ft_print_nchar(' ', flags->width - len - 1);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;	
-			}
-			else if (!flags->zero && !flags->plus && flags->minus && flags->space)
-			{
-				write(1, " ", 1);
-				ft_putnbr(arg);
-				ft_print_nchar(' ', flags->width - len - 1);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;
-			}
-			else if (!flags->zero && !flags->plus && flags->minus && !flags->space)
-			{
-				ft_putnbr(arg);
-				ft_print_nchar(' ', flags->width - len);
-				n = flags->width - len <= 0 ? 0 : flags->width - len;
-				n = n + len;
-			}
-			else if (!flags->zero && !flags->plus && !flags->minus && flags->space)
-			{
-				write(1, " ", 1);
-				ft_print_nchar(' ', flags->width - len - 1);
-				ft_putnbr(arg);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;
-			}
-			else if (!flags->zero && !flags->plus && !flags->minus)
-			{
-				ft_print_nchar(' ', flags->width - len);
-				ft_putnbr(arg);
-				n = flags->width - len <= 0 ? 0 : flags->width - len;
-				n = n + len;
-			}
-		}
+	else
+	{
+		len += number.sign ? 1 : 0;
+		if (flags->minus)
+			number.right = n_char(' ', flags->width - len, &len);
 		else
 		{
 			if (flags->zero)
-			{
-				write(1, "-", 1);
-				ft_print_nchar('0', flags->width - len - 1);
-				if (arg == -2147483648)
-					write (1, "2147483648", 10);
-				else
-					ft_putnbr(-arg);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;
-			}
-			else if (!flags->zero && !flags->minus)
-			{
-				ft_print_nchar(' ', flags->width - len - 1);
-				ft_putnbr(arg);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;
-			}
-			else if (!flags->zero && flags->minus)
-			{
-				ft_putnbr(arg);
-				ft_print_nchar(' ', flags->width - len - 1);
-				n = flags->width - len - 1 <= 0 ? 0 : flags->width - len - 1;
-				n = 1 + n + len;
-			}
+				number.zeros = n_char('0', flags->width - len, &len);
+			else
+				number.left = n_char(' ', flags->width - len, &len);
 		}
-	free_flags(flags);
-	return (n);
-}*/
+	}
+	print_and_free_int_struct(&number);
+	return (len);
+}
