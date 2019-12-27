@@ -31,9 +31,21 @@ int		get_flags(char *ptr, t_flags *flags)
 			flags->plus = 1;
 		if (ptr[i] == ' ')
 			flags->space = 1;
+		if (ptr[i] == '.')
+		{
+			flags->dot = 1;
+			if (ptr[i + 1])
+			{
+				if (ptr[i + 1] == '0')
+					flags->precision = -1;
+			}
+		}
 		if (ptr[i] >= '1' && ptr[i] <= '9')
 		{
-			flags->width = ft_atoi(&ptr[i]);
+			if (flags->dot)
+				flags->precision = ft_atoi(&ptr[i]);
+			else
+				flags->width = ft_atoi(&ptr[i]);
 			while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')
 				i++;
 			i--;
@@ -49,6 +61,8 @@ void	free_flags(t_flags *flags)
 	flags->plus = 0;
 	flags->minus = 0;
 	flags->width = 0;
+	flags->dot = 0;
+	flags->precision = 0;
 	flags->space = 0;
 }
 
@@ -72,71 +86,12 @@ void	ft_print_nchar(char c, int i)
 		write(1, &c, 1);
 }
 
-int		ft_print_int(int arg, t_flags *flags)
-{
-	int		len;
-
-	len = ft_intlen(arg);
-		if (arg >= 0)
-		{
-			if (flags->zero && flags->plus && !flags->minus)
-			{
-				write(1, "+", 1);
-				ft_print_nchar('0', flags->width - len - 1);
-				ft_putnbr(arg);
-			}
-			else if (!flags->zero && flags->plus && !flags->minus)
-			{
-				ft_print_nchar(' ', flags->width - len - 1);
-				write(1, "+", 1);
-				ft_putnbr(arg);
-			}
-			else if (!flags->zero && flags->plus && flags->minus)
-			{
-				ft_putnbr(flags->width);
-				write(1, "blabla\n", 7);
-				write(1, "+", 1);
-				ft_putnbr(arg);
-				ft_print_nchar(' ', flags->width - len - 1);	
-			}
-			else if (!flags->zero && !flags->plus && flags->minus && flags->space)
-			{
-				write(1, " ", 1);
-				ft_putnbr(arg);
-				ft_print_nchar(' ', flags->width - len - 1);
-			}
-			else if (!flags->zero && !flags->plus && !flags->minus)
-			{
-				ft_print_nchar(' ', flags->width - len);
-				ft_putnbr(arg);
-			}
-		}
-		else
-		{
-			if (flags->zero && !flags->space)
-			{
-				write(1, "-", 1);
-				ft_print_nchar('0', flags->width - len - 1);
-				if (arg == -2147483648)
-					write (1, "2147483648", 10);
-				else
-					ft_putnbr(-arg);
-			}
-			else if (!flags->zero)
-			{
-				ft_print_nchar(' ', flags->width - len - 1);
-				ft_putnbr(arg);
-			}
-		}
-	free_flags(flags);
-	return (0);
-}
-
 int		ft_printf(const char *format, ...)
 {
 	va_list		arg_ptr;
 	char		*ptr;
 	t_flags		flags;
+	int			res = 0;
 	
 	va_start(arg_ptr, format);
 	free_flags(&flags);
@@ -144,15 +99,20 @@ int		ft_printf(const char *format, ...)
 	while (*ptr)
 	{
 		if (*ptr != '%')
+		{
 			write(1, ptr, 1);
+			res++;
+		}
 		else
 		{
 			ptr += get_flags(ptr + 1, &flags);
 			if (*ptr == 'd')
-				ft_print_int(va_arg(arg_ptr,int), &flags);
+				res += ft_print_int(va_arg(arg_ptr,int), &flags);
+			if (*ptr == 's')
+				res += ft_print_string(va_arg(arg_ptr, char*), &flags);
 		}
 		ptr++;
 	}
 	va_end(arg_ptr);
-	return (0);
+	return (res);
 }

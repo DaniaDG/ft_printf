@@ -51,7 +51,7 @@ PRINTF_HEADERS_DIRECTORY = ./includes/
 PRINTF_HEADERS = $(addprefix $(PRINTF_HEADERS_DIRECTORY), $(PRINTF_HEADERS_LIST))
 
 PRINTF_SOURCES_DIRECTORY = ./sources/
-PRINTF_SOURCES_LIST = ft_printf.c
+PRINTF_SOURCES_LIST = ft_printf.c ft_print_int.c ft_print_string.c ft_itoa_base.c
 PRINTF_SOURCES = $(addprefix $(PRINTF_SOURCES_DIRECTORY), $(PRINTF_SOURCES_LIST))
 
 PRINTF_OBJECTS_DIRECTORY = objects/

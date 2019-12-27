@@ -11,28 +11,23 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "ft_printf.h"
+//#include "ft_printf.h"
 
 int		main()
 {
 	//int		a = 5;
 	//int		b = 0;
 	//char	c = 'A';
+	int		i;
 
+	i = printf("%+7.3d", -6); 
+	printf("\ni = %d", i);
 
-	printf("%+-5d\n", 0);
-	printf("%+05d\n", -3);
-	printf("%+7d\n", 14);
-	printf("%+5d\n", 25589333);
+	printf("\n********55******\n");
 
+	//i = ft_printf("%-05d", 42); 
+	//printf("\ni = %d", i);
 
-	printf("**************\n");
-
-	ft_printf("%+-5d\n", 0);
-	ft_printf("%+05d\n", -3);
-	ft_printf("%+7d\n", 14);
-	ft_printf("%+5d\n", 25589333);
-
-
+	//printf("\ns = %s", ft_itoa_base(123456, 10));
 	return (0);
 }
