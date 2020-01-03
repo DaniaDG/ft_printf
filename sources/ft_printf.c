@@ -19,9 +19,9 @@ int		get_flags(char *ptr, t_flags *flags)
 
 	if (!ptr[i])
 		return (0);
-	if (ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c')
+	if (ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c' || ptr[i] == 'i')
 		return (1);
-	while (ptr[i] && ptr[i] != 'd' && ptr[i] != 's' && ptr[i] != 'c')
+	while (ptr[i] && ptr[i] != 'd' && ptr[i] != 's' && ptr[i] != 'c' && ptr[i] != 'i')
 	{
 		if (ptr[i] == '0')
 			flags->zero = 1;
@@ -34,11 +34,11 @@ int		get_flags(char *ptr, t_flags *flags)
 		if (ptr[i] == '.')
 		{
 			flags->dot = 1;
-			if (ptr[i + 1])
+			/*if (ptr[i + 1])
 			{
 				if (ptr[i + 1] == '0')
 					flags->precision = -1;
-			}
+			}*/
 		}
 		if (ptr[i] >= '1' && ptr[i] <= '9')
 		{
@@ -92,6 +92,7 @@ int		ft_printf(const char *format, ...)
 	char		*ptr;
 	t_flags		flags;
 	int			res = 0;
+	char		*tmp;
 	
 	va_start(arg_ptr, format);
 	free_flags(&flags);
@@ -106,10 +107,14 @@ int		ft_printf(const char *format, ...)
 		else
 		{
 			ptr += get_flags(ptr + 1, &flags);
-			if (*ptr == 'd')
+			if (*ptr == 'd' || *ptr == 'i')
 				res += ft_print_int(va_arg(arg_ptr,int), &flags);
-			//if (*ptr == 's')
-			//	res += ft_print_string(va_arg(arg_ptr, char*), &flags);
+			if (*ptr == 's')
+			{
+				if (!(tmp = va_arg(arg_ptr, char*)))
+					tmp = ft_strdup("(null)");
+				res += ft_print_string(tmp, &flags);
+			}
 		}
 		ptr++;
 	}

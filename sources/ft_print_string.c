@@ -13,17 +13,47 @@
 
 #include "ft_printf.h"
 
+void	print_and_free_string_struct(t_string *string)
+{
+	if (string->left)
+		write(1, string->left, ft_strlen(string->left));
+	if (string->str)
+		write(1, string->str, ft_strlen(string->str));
+	if (string->right)
+		write(1, string->right, ft_strlen(string->right));
+	ft_memdel((void**)&string->left);
+	ft_memdel((void**)&string->str);
+	ft_memdel((void**)&string->right);
+}
+
 int		ft_print_string(char *arg, t_flags *flags)
 {
-	int		len;
-	int		n;
+	int			len;
+	t_string	string;
 
-	len = ft_strlen(arg);
-	if (!flags->minus)
-		ft_print_nchar(' ', flags->width - len);
-	write(1, arg, len);
+	string.left = NULL;
+	string.str = NULL;
+	string.right = NULL;
+	if (flags->dot)
+	{
+		if (!flags->precision)
+			len = 0;
+		else
+		{
+			string.str = ft_strsub(arg, 0, ft_min(flags->precision, ft_strlen(arg)));
+			len = ft_strlen(string.str);
+		}
+	}
+	else
+	{
+		string.str = ft_strdup(arg);
+		len = ft_strlen(string.str);
+	}
 	if (flags->minus)
-		ft_print_nchar(' ', flags->width - len);
-	n = flags->width - len <= 0 ? 0 : flags->width - len;
-	return (len + n);
+		string.right = n_char(' ', flags->width - len, &len);
+	else
+		string.left = n_char(' ', flags->width - len, &len);
+	print_and_free_string_struct(&string);
+	free_flags(flags);
+	return (len);
 }

@@ -20,12 +20,12 @@ int		main()
 	//char	c = 'A';
 	int		i;
 
-	i = printf("%0+5d", 42);     
+	i = ft_printf("@moulitest: %s %s %s %s", NULL, "bla", "123", "5");
 	printf("\ni = %d", i);
 
 	printf("\n********55******\n");
 
-	i = ft_printf("%0+5d", 42);
+	i = printf("@moulitest: %s", NULL);
 	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));

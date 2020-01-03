@@ -19,6 +19,13 @@ int		ft_max(int a, int b)
 	return (b);
 }
 
+int		ft_min(int a, int b)
+{
+	if (a <= b)
+		return (a);
+	return (b);
+}
+
 int		ft_abs(int a)
 {
 	if (a >= 0)
@@ -102,5 +109,6 @@ int		ft_print_int(int arg, t_flags *flags)
 		}
 	}
 	print_and_free_int_struct(&number);
+	free_flags(flags);
 	return (len);
 }

@@ -40,14 +40,24 @@ typedef struct			s_integer
 	char	*right;
 }						t_integer;
 
+typedef struct			s_srting
+{
+	char	*left;
+	char	*str;
+	char	space;
+	char	*right;
+}						t_string;
+
 
 
 int		ft_printf(const char *format, ...);
 int		ft_print_int(int arg, t_flags *flags);
-void	ft_print_nchar(char c, int i);
+char	*n_char(char c, int n, int *len);
 int		ft_intlen(int n);
 void	free_flags(t_flags *flags);
 int		ft_print_string(char *arg, t_flags *flags);
 char	*ft_itoa_base(int value, int base);
+int		ft_max(int a, int b);
+int		ft_min(int a, int b);
 
 #endif
