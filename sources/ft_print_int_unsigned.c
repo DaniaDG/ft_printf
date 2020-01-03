@@ -12,36 +12,6 @@
 
 #include "ft_printf.h"
 
-int		ft_max(int a, int b)
-{
-	if (a >= b)
-		return (a);
-	return (b);
-}
-
-int		ft_min(int a, int b)
-{
-	if (a <= b)
-		return (a);
-	return (b);
-}
-
-char	*n_char(char c, int n, int *len)
-{
-	char	*str;
-	int		tmp;
-
-	if (n <= 0)
-		return (NULL);
-	tmp = n;
-	str = (char *)malloc(sizeof(char) * (n + 1));
-	str[n--] = '\0';
-	while (n >= 0)
-		str[n--] = c;
-	*len = *len + tmp;
-	return (str);
-}
-
 static void	print_and_free_int_struct(t_integer *number)
 {
 	if (number->left)
@@ -57,15 +27,15 @@ static void	print_and_free_int_struct(t_integer *number)
 	//free all struct!!!
 }
 
-int		ft_print_int(va_list arg_ptr, t_flags *flags)
+int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags)
 {
 	t_integer	number;
 	int			len;
-	int			int_arg = 0;
-	long		long_arg = 0;
-	long long	long_long_arg = 0;
-	short		short_arg = 0;
-	char		short_short_arg = 0;
+	unsigned int			u_int_arg;
+	unsigned long			u_long_arg;
+	unsigned long long		u_long_long_arg;
+	unsigned short			u_short_arg = 0;
+	unsigned char			u_short_short_arg = 0;
 
 	number.sign = 0;
 	number.left = NULL;
@@ -74,38 +44,33 @@ int		ft_print_int(va_list arg_ptr, t_flags *flags)
 	number.zeros = NULL;
 	if (flags->ll)
 	{
-		long_long_arg = (long long)va_arg(arg_ptr, long long);
-		number.digits = ft_itoa_base_long(long_long_arg, 10);
+		u_long_long_arg = (unsigned long long)va_arg(arg_ptr, unsigned long long);
+		number.digits = ft_itoa_base_long(u_long_long_arg, 10);
 	}
 	else if (flags->l)
 	{
-		long_arg = (long)va_arg(arg_ptr, long);
-		number.digits = ft_itoa_base_long(long_arg, 10);
+		u_long_arg = (unsigned long)va_arg(arg_ptr, unsigned long);
+		number.digits = ft_itoa_base_long(u_long_arg, 10);
 	}
 	else if (flags->h)
 	{
-		short_arg = (short)va_arg(arg_ptr, int);
-		number.digits = ft_itoa_base(short_arg, 10);
+		u_short_arg = (unsigned short)va_arg(arg_ptr, unsigned int);
+		number.digits = ft_itoa_base(u_short_arg, 10);
 	}
 	else if (flags->hh)
 	{
-		short_short_arg = (char)va_arg(arg_ptr, int);
-		number.digits = ft_itoa_base(short_short_arg, 10);
+		u_short_short_arg = (unsigned char)va_arg(arg_ptr, unsigned int);
+		number.digits = ft_itoa_base(u_short_short_arg, 10);
 	}
 	else
 	{
-		int_arg = va_arg(arg_ptr, int);
-		number.digits = ft_itoa_base(int_arg, 10);
+		u_int_arg = (unsigned int)va_arg(arg_ptr, unsigned int);
+		number.digits = ft_itoa_base(u_int_arg, 10);
 	}
-	if (int_arg < 0 || long_arg < 0 || long_long_arg < 0 || short_short_arg < 0 || short_arg < 0)
-		number.sign = '-';
-	else
-	{
-		if (flags->plus)
-			number.sign = '+';
-		else if (flags->space)
-			number.sign = ' ';
-	}
+	if (flags->plus)
+		number.sign = '+';
+	else if (flags->space)
+		number.sign = ' ';
 	//
 	len = ft_strlen(number.digits);
 	if (flags->dot)

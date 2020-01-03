@@ -16,12 +16,13 @@
 int		get_flags(char *ptr, t_flags *flags)
 {
 	int		i = 0;
+	char	*flag_values = "hl0123456789 .+-#";
 
 	if (!ptr[i])
 		return (0);
-	if (ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c' || ptr[i] == 'i')
+	if (ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c' || ptr[i] == 'i' || ptr[i] == 'u')
 		return (1);
-	while (ptr[i] && ptr[i] != 'd' && ptr[i] != 's' && ptr[i] != 'c' && ptr[i] != 'i')
+	while (ptr[i] && ft_strchr(flag_values, ptr[i]))
 	{
 		if (ptr[i] == '0')
 			flags->zero = 1;
@@ -32,14 +33,7 @@ int		get_flags(char *ptr, t_flags *flags)
 		if (ptr[i] == ' ')
 			flags->space = 1;
 		if (ptr[i] == '.')
-		{
 			flags->dot = 1;
-			/*if (ptr[i + 1])
-			{
-				if (ptr[i + 1] == '0')
-					flags->precision = -1;
-			}*/
-		}
 		if (ptr[i] >= '1' && ptr[i] <= '9')
 		{
 			if (flags->dot)
@@ -49,6 +43,24 @@ int		get_flags(char *ptr, t_flags *flags)
 			while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')
 				i++;
 			i--;
+		}
+		if (ptr[i] == 'h')
+		{
+			flags->h = 1;
+			if (ptr[i - 1] == 'h')
+			{
+				flags->hh = 1;
+				flags->h = 0;
+			}
+		}
+		if (ptr[i] == 'l')
+		{
+			flags->l = 1;
+			if (ptr[i - 1] == 'l')
+			{
+				flags->ll = 1;
+				flags->l = 0;
+			}
 		}
 		i++;
 	}
@@ -64,6 +76,10 @@ void	free_flags(t_flags *flags)
 	flags->dot = 0;
 	flags->precision = 0;
 	flags->space = 0;
+	flags->h = 0;
+	flags->hh = 0;
+	flags->l = 0;
+	flags->ll = 0;
 }
 
 int		ft_intlen(int n)
@@ -108,13 +124,20 @@ int		ft_printf(const char *format, ...)
 		{
 			ptr += get_flags(ptr + 1, &flags);
 			if (*ptr == 'd' || *ptr == 'i')
-				res += ft_print_int(va_arg(arg_ptr,int), &flags);
+			{
+				//printf("\ncheck l = %d, ll = %d\n", flags.l, flags.ll);
+				res += ft_print_int(arg_ptr, &flags);	
+			}
 			if (*ptr == 's')
 			{
 				if (!(tmp = va_arg(arg_ptr, char*)))
 					tmp = ft_strdup("(null)");
 				res += ft_print_string(tmp, &flags);
 			}
+			if (*ptr == 'c')
+				res += ft_print_char(va_arg(arg_ptr, int), &flags);
+			if (*ptr == 'u')
+				res += ft_print_int_unsigned(arg_ptr, &flags);
 		}
 		ptr++;
 	}

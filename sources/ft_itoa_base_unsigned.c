@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa_base.c                                     :+:      :+:    :+:   */
+/*   ft_itoa_base_long.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: exam <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,15 +12,15 @@
 
 #include <stdlib.h>
 
-static char	rem_letter(int rem)
+static char		rem_letter(int rem)
 {
 	if (rem >= 10 && rem <= 15)
-		return (rem + 55);//+87
+		return (rem + 55);
 	else
 		return (rem + '0');
 }
 
-static int		num_of_letters(int value, int base)
+static int		num_of_letters(unsigned long value, int base)
 {
 	int i;
 
@@ -29,13 +29,13 @@ static int		num_of_letters(int value, int base)
 		return (1);
 	while (value != 0)
 	{
-		value = value / base;
+		value = (unsigned long)(value / (unsigned long)base);
 		i++;
 	}
 	return (i);
 }
 
-char	*ft_itoa_base(int value, int base)
+char	*ft_itoa_base_unsigned(unsigned long value, int base)
 {
 	char	*str;
 	int		len;
@@ -50,15 +50,10 @@ char	*ft_itoa_base(int value, int base)
 		str[len--] = '\0';
 		if (!value)
 			str[0] = '0';
-		if (value < 0)
-		{
-			str[len--] = rem_letter((value % base) * (-1));
-			value = (value / base) * (-1);
-		}
 		while (value != 0)
 		{
 			str[len--] = rem_letter((value % base));
-			value = value / base;
+			value = (unsigned long)(value / (unsigned long)base);
 		}
 	}
 	return (str);

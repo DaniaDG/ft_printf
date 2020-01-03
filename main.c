@@ -18,14 +18,15 @@ int		main()
 	//int		a = 5;
 	//int		b = 0;
 	//char	c = 'A';
+	unsigned int	b = 123;
 	int		i;
 
-	i = ft_printf("@moulitest: %s %s %s %s", NULL, "bla", "123", "5");
+	i = ft_printf("%hd", 50000);
 	printf("\ni = %d", i);
 
-	printf("\n********55******\n");
+	printf("\n****************\n");
 
-	i = printf("@moulitest: %s", NULL);
+	i = printf("%x", (unsigned int)-123);
 	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));
