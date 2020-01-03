@@ -10,15 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "ft_printf.h"
 
-static char		rem_letter(int rem)
+static char	rem_letter(int rem, int reg)
 {
 	if (rem >= 10 && rem <= 15)
-		return (rem + 55);
-		//return (rem + 87);
-	else
-		return (rem + '0');
+	{
+		if (reg)
+			return (rem + 55);
+		return (rem + 87);
+	}
+	return (rem + '0');
 }
 
 static int		num_of_letters(long long value, int base)
@@ -36,7 +38,7 @@ static int		num_of_letters(long long value, int base)
 	return (i);
 }
 
-char	*ft_itoa_base_long(long long value, int base)
+char	*ft_itoa_base_long(long long value, int base, int reg)
 {
 	char	*str;
 	int		len;
@@ -53,12 +55,12 @@ char	*ft_itoa_base_long(long long value, int base)
 			str[0] = '0';
 		if (value < 0)
 		{
-			str[len--] = rem_letter((value % base) * (-1));
+			str[len--] = rem_letter((value % base) * (-1), reg);
 			value = ((long long)(value / (long long)base)) * (-1);
 		}
 		while (value != 0)
 		{
-			str[len--] = rem_letter((value % base));
+			str[len--] = rem_letter((value % base), reg);
 			value = (long long)(value / (long long)base);
 		}
 	}

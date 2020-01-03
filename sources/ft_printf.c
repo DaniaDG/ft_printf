@@ -16,13 +16,12 @@
 int		get_flags(char *ptr, t_flags *flags)
 {
 	int		i = 0;
-	char	*flag_values = "hl0123456789 .+-#";
 
 	if (!ptr[i])
 		return (0);
-	if (ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c' || ptr[i] == 'i' || ptr[i] == 'u' || ptr[i] == 'X' || ptr[i] == 'x')
+	if (ft_strchr("discouxX", ptr[i]))
 		return (1);
-	while (ptr[i] && ft_strchr(flag_values, ptr[i]))
+	while (ptr[i] && ft_strchr("hl0123456789 .+-#", ptr[i]))
 	{
 		if (ptr[i] == '0')
 			flags->zero = 1;
@@ -106,16 +105,33 @@ void	ft_print_nchar(char c, int i)
 		write(1, &c, 1);
 }
 
+void	init_f(t_f *f)
+{
+	f->flags = (t_flags*)malloc(sizeof(t_flags));
+	free_flags(f->flags);
+	f->string = (t_string*)malloc(sizeof(t_string));
+	f->string->left = NULL;
+	f->string->str = NULL;
+	f->string->right = NULL;
+	f->number = (t_integer*)malloc(sizeof(t_integer));
+	f->number->sign = 0;
+	f->number->ox = NULL;
+	f->number->left = NULL;
+	f->number->right = NULL;
+	f->number->digits = NULL;
+	f->number->zeros = NULL;
+}
+
 int		ft_printf(const char *format, ...)
 {
 	va_list		arg_ptr;
 	char		*ptr;
-	t_flags		flags;
+	t_f			f;
 	int			res = 0;
-	char		*tmp;
+	//char		*tmp;
 	
 	va_start(arg_ptr, format);
-	free_flags(&flags);
+	init_f(&f);
 	ptr = (char *)format;
 	while (*ptr)
 	{
@@ -126,22 +142,22 @@ int		ft_printf(const char *format, ...)
 		}
 		else
 		{
-			ptr += get_flags(ptr + 1, &flags);
-			flags.conversion = *ptr;
+			ptr += get_flags(ptr + 1, f.flags);
+			f.flags->conversion = *ptr;
 			if (*ptr == 'd' || *ptr == 'i')
-				res += ft_print_int(arg_ptr, &flags);	
-			if (*ptr == 's')
+				res += ft_print_int(arg_ptr, &f);	
+			/*if (*ptr == 's')
 			{
 				if (!(tmp = va_arg(arg_ptr, char*)))
 					tmp = ft_strdup("(null)");
-				res += ft_print_string(tmp, &flags);
+				res += ft_print_string(tmp, f.flags);
 			}
 			if (*ptr == 'c')
-				res += ft_print_char(va_arg(arg_ptr, int), &flags);
+				res += ft_print_char(va_arg(arg_ptr, int), f.flags);*/
 			if (*ptr == 'u')
-				res += ft_print_int_unsigned(arg_ptr, &flags);
+				res += ft_print_int(arg_ptr, &f);
 			if (*ptr == 'X' || *ptr == 'x')
-				res += ft_print_hex(arg_ptr, &flags);
+				res += ft_print_hex(arg_ptr, f.flags);
 		}
 		ptr++;
 	}
