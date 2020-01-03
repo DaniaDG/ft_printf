@@ -16,6 +16,7 @@ static char		rem_letter(int rem)
 {
 	if (rem >= 10 && rem <= 15)
 		return (rem + 55);
+		//return (rem + 87);
 	else
 		return (rem + '0');
 }

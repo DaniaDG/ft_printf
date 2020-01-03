@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_int.c                                     :+:      :+:    :+:   */
+/*   ft_print_hex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -29,15 +29,15 @@ static void	print_and_free_int_struct(t_integer *number)
 	//free all struct!!!
 }
 
-int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags)
+int		ft_print_hex(va_list arg_ptr, t_flags *flags)
 {
 	t_integer	number;
 	int			len;
-	unsigned int			u_int_arg;
-	unsigned long			u_long_arg;
-	unsigned long long		u_long_long_arg;
-	unsigned short			u_short_arg = 0;
-	unsigned char			u_short_short_arg = 0;
+	int						int_arg = 0;
+	long					long_arg = 0;
+	long long				long_long_arg = 0;
+	short					short_arg = 0;
+	char					short_short_arg = 0;
 
 	number.sign = 0;
 	number.ox = NULL;
@@ -47,39 +47,54 @@ int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags)
 	number.zeros = NULL;
 	if (flags->ll)
 	{
-		u_long_long_arg = (unsigned long long)va_arg(arg_ptr, unsigned long long);
-		number.digits = ft_itoa_base_unsigned(u_long_long_arg, 10);
+		long_long_arg = (long long)va_arg(arg_ptr, long long);
+		if (long_long_arg < 0)
+			number.digits = ft_itoa_base_unsigned((unsigned long long)long_long_arg, 16);
+		else
+			number.digits = ft_itoa_base_long(long_long_arg, 16);
 	}
 	else if (flags->l)
 	{
-		u_long_arg = (unsigned long)va_arg(arg_ptr, unsigned long);
-		number.digits = ft_itoa_base_unsigned(u_long_arg, 10);
+		long_arg = (long)va_arg(arg_ptr, long);
+		if (long_arg < 0)
+			number.digits = ft_itoa_base_unsigned((unsigned long)long_arg, 16);
+		else
+			number.digits = ft_itoa_base_long(long_arg, 16);
 	}
 	else if (flags->h)
 	{
-		u_short_arg = (unsigned short)va_arg(arg_ptr, unsigned int);
-		number.digits = ft_itoa_base(u_short_arg, 10);
+		short_arg = (short)va_arg(arg_ptr, int);
+		if (short_arg < 0)
+			number.digits = ft_itoa_base_unsigned((unsigned short)short_arg, 16);
+		else
+			number.digits = ft_itoa_base_long(short_arg, 16);
 	}
 	else if (flags->hh)
 	{
-		u_short_short_arg = (unsigned char)va_arg(arg_ptr, unsigned int);
-		number.digits = ft_itoa_base(u_short_short_arg, 10);
+		short_short_arg = (char)va_arg(arg_ptr, int);
+		if (short_short_arg < 0)
+			number.digits = ft_itoa_base_unsigned((unsigned char)short_short_arg, 16);
+		else
+			number.digits = ft_itoa_base(short_short_arg, 16);
 	}
 	else
 	{
-		u_int_arg = (unsigned int)va_arg(arg_ptr, unsigned int);
-		number.digits = ft_itoa_base(u_int_arg, 10);
+		int_arg = va_arg(arg_ptr, int);
+		if (int_arg < 0)
+			number.digits = ft_itoa_base_unsigned((unsigned int)int_arg, 16);
+		else
+			number.digits = ft_itoa_base(int_arg, 16);
 	}
-	if (flags->plus)
-		number.sign = '+';
-	else if (flags->space)
-		number.sign = ' ';
 	//
 	len = ft_strlen(number.digits);
 	if (flags->dot)
 	{
 		number.zeros = n_char('0', flags->precision - len, &len);
-		len += number.sign ? 1 : 0;
+		if (flags->sharp && (int_arg || long_arg || long_long_arg || short_arg || short_short_arg))
+		{
+			number.ox = ft_strdup(flags->conversion == 'X' ? "0X" : "0x");
+			len += 2;
+		}
 		if (flags->minus)
 			number.right = n_char(' ', flags->width - len, &len);
 		else
@@ -87,7 +102,11 @@ int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags)
 	}
 	else
 	{
-		len += number.sign ? 1 : 0;
+		if (flags->sharp && (int_arg || long_arg || long_long_arg || short_arg || short_short_arg))
+		{
+			number.ox = ft_strdup(flags->conversion == 'X' ? "0X" : "0x");
+			len += 2;
+		}
 		if (flags->minus)
 			number.right = n_char(' ', flags->width - len, &len);
 		else

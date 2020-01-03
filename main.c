@@ -21,12 +21,12 @@ int		main()
 	unsigned int	b = 123;
 	int		i;
 
-	i = ft_printf("%hd", 50000);
+	i = ft_printf("%#X", 50000);
 	printf("\ni = %d", i);
 
 	printf("\n****************\n");
 
-	i = printf("%x", (unsigned int)-123);
+	i = printf("%#X", 50000);
 	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));

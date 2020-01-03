@@ -48,6 +48,8 @@ static void	print_and_free_int_struct(t_integer *number)
 		write(1, number->left, ft_strlen(number->left));
 	if (number->sign)
 		write(1, &(number->sign), 1);
+	if (number->ox)
+		write(1, number->ox, ft_strlen(number->ox));
 	if (number->zeros)
 		write(1, number->zeros, ft_strlen(number->zeros));
 	if (number->digits)
@@ -68,6 +70,7 @@ int		ft_print_int(va_list arg_ptr, t_flags *flags)
 	char		short_short_arg = 0;
 
 	number.sign = 0;
+	number.ox = NULL;
 	number.left = NULL;
 	number.right = NULL;
 	number.digits = NULL;

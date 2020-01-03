@@ -29,16 +29,19 @@ typedef struct			s_flags
 	int		dot;
 	int		precision;
 	int		space;
+	int		sharp;
 	int		h;
 	int		hh;
 	int		l;
 	int		ll;
+	char	 conversion;
 }						t_flags;
 
 typedef struct			s_integer
 {
 	char	*left;
 	char	sign;
+	char	*ox;
 	char	*zeros;
 	char	*digits;
 	char	*right;
@@ -64,6 +67,7 @@ int		ft_printf(const char *format, ...);
 //int		ft_print_int(int arg, t_flags *flags);
 int		ft_print_int(va_list arg_ptr, t_flags *flags);
 int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
+int		ft_print_hex(va_list arg_ptr, t_flags *flags);
 char	*n_char(char c, int n, int *len);
 int		ft_intlen(int n);
 void	free_flags(t_flags *flags);
@@ -71,6 +75,7 @@ int		ft_print_string(char *arg, t_flags *flags);
 int		ft_print_char(char ch, t_flags *t_flags);
 char	*ft_itoa_base(int value, int base);
 char	*ft_itoa_base_long(long long value, int base);
+char	*ft_itoa_base_unsigned(unsigned long long value, int base);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 

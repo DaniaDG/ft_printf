@@ -16,11 +16,12 @@ static char		rem_letter(int rem)
 {
 	if (rem >= 10 && rem <= 15)
 		return (rem + 55);
+		//return (rem + 87);
 	else
 		return (rem + '0');
 }
 
-static int		num_of_letters(unsigned long value, int base)
+static int		num_of_letters(unsigned long long value, int base)
 {
 	int i;
 
@@ -29,13 +30,13 @@ static int		num_of_letters(unsigned long value, int base)
 		return (1);
 	while (value != 0)
 	{
-		value = (unsigned long)(value / (unsigned long)base);
+		value = (unsigned long long)(value / (unsigned long long)base);
 		i++;
 	}
 	return (i);
 }
 
-char	*ft_itoa_base_unsigned(unsigned long value, int base)
+char	*ft_itoa_base_unsigned(unsigned long long value, int base)
 {
 	char	*str;
 	int		len;
@@ -53,7 +54,7 @@ char	*ft_itoa_base_unsigned(unsigned long value, int base)
 		while (value != 0)
 		{
 			str[len--] = rem_letter((value % base));
-			value = (unsigned long)(value / (unsigned long)base);
+			value = (unsigned long long)(value / (unsigned long long)base);
 		}
 	}
 	return (str);

@@ -20,7 +20,7 @@ int		get_flags(char *ptr, t_flags *flags)
 
 	if (!ptr[i])
 		return (0);
-	if (ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c' || ptr[i] == 'i' || ptr[i] == 'u')
+	if (ptr[i] == 'd' || ptr[i] == 's' || ptr[i] == 'c' || ptr[i] == 'i' || ptr[i] == 'u' || ptr[i] == 'X' || ptr[i] == 'x')
 		return (1);
 	while (ptr[i] && ft_strchr(flag_values, ptr[i]))
 	{
@@ -34,6 +34,8 @@ int		get_flags(char *ptr, t_flags *flags)
 			flags->space = 1;
 		if (ptr[i] == '.')
 			flags->dot = 1;
+		if (ptr[i] == '#')
+			flags->sharp = 1;
 		if (ptr[i] >= '1' && ptr[i] <= '9')
 		{
 			if (flags->dot)
@@ -76,10 +78,12 @@ void	free_flags(t_flags *flags)
 	flags->dot = 0;
 	flags->precision = 0;
 	flags->space = 0;
+	flags->sharp = 0;
 	flags->h = 0;
 	flags->hh = 0;
 	flags->l = 0;
 	flags->ll = 0;
+	flags->conversion = 0;
 }
 
 int		ft_intlen(int n)
@@ -123,11 +127,9 @@ int		ft_printf(const char *format, ...)
 		else
 		{
 			ptr += get_flags(ptr + 1, &flags);
+			flags.conversion = *ptr;
 			if (*ptr == 'd' || *ptr == 'i')
-			{
-				//printf("\ncheck l = %d, ll = %d\n", flags.l, flags.ll);
 				res += ft_print_int(arg_ptr, &flags);	
-			}
 			if (*ptr == 's')
 			{
 				if (!(tmp = va_arg(arg_ptr, char*)))
@@ -138,6 +140,8 @@ int		ft_printf(const char *format, ...)
 				res += ft_print_char(va_arg(arg_ptr, int), &flags);
 			if (*ptr == 'u')
 				res += ft_print_int_unsigned(arg_ptr, &flags);
+			if (*ptr == 'X' || *ptr == 'x')
+				res += ft_print_hex(arg_ptr, &flags);
 		}
 		ptr++;
 	}
