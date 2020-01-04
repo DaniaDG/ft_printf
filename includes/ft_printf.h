@@ -94,7 +94,7 @@ int		ft_printf(const char *format, ...);
 //int		ft_print_int(va_list arg_ptr, t_flags *flags);
 int		ft_print_int(va_list arg_ptr, t_f *f);
 int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
-int		ft_print_hex(va_list arg_ptr, t_flags *flags);
+//int		ft_print_hex(va_list arg_ptr, t_flags *flags);
 char	*n_char(char c, int n, int *len);
 int		ft_intlen(int n);
 void	free_flags(t_flags *flags);

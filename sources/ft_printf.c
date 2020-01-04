@@ -33,7 +33,7 @@ int		get_flags(char *ptr, t_flags *flags)
 			flags->space = 1;
 		if (ptr[i] == '.')
 			flags->dot = 1;
-		if (ptr[i] == '#')
+		if (ptr[i] == '#' && ptr[i - 1] == '%')
 			flags->sharp = 1;
 		if (ptr[i] >= '1' && ptr[i] <= '9')
 		{
@@ -144,9 +144,9 @@ int		ft_printf(const char *format, ...)
 		{
 			ptr += get_flags(ptr + 1, f.flags);
 			f.flags->conversion = *ptr;
-			if (*ptr == 'd' || *ptr == 'i')
+			if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
 				res += ft_print_int(arg_ptr, &f);	
-			/*if (*ptr == 's')
+		/*	if (*ptr == 's')
 			{
 				if (!(tmp = va_arg(arg_ptr, char*)))
 					tmp = ft_strdup("(null)");
@@ -154,10 +154,6 @@ int		ft_printf(const char *format, ...)
 			}
 			if (*ptr == 'c')
 				res += ft_print_char(va_arg(arg_ptr, int), f.flags);*/
-			if (*ptr == 'u')
-				res += ft_print_int(arg_ptr, &f);
-			if (*ptr == 'X' || *ptr == 'x')
-				res += ft_print_hex(arg_ptr, f.flags);
 		}
 		ptr++;
 	}

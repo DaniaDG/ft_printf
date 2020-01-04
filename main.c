@@ -15,18 +15,21 @@
 
 int		main()
 {
-	//int		a = 5;
-	//int		b = 0;
-	//char	c = 'A';
-	unsigned int	b = 123;
+	unsigned char 		uch_pos_1 = 100;
+	unsigned short		ush_pos_1 = 3047;
+	unsigned int		ui_pos_1 = 878023;
+	unsigned long		ul_pos_1 = 22337203685477;
+	unsigned long long	ull_pos_1 = 22337203685477;
+	unsigned long long  ullmax = 9223372036854775807;
+	unsigned long  		ulmax = 9223372036854775807;
 	int		i;
 
-	i = ft_printf("%#X", 50000);
+	i = ft_printf("%hu%#lx%hhx", ush_pos_1, ul_pos_1, uch_pos_1);
 	printf("\ni = %d", i);
 
 	printf("\n****************\n");
 
-	i = printf("%#X", 50000);
+	i = printf("%hu%#lx%hhx", ush_pos_1, ul_pos_1, uch_pos_1);
 	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));
