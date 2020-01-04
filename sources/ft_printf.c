@@ -128,7 +128,7 @@ int		ft_printf(const char *format, ...)
 	char		*ptr;
 	t_f			f;
 	int			res = 0;
-	//char		*tmp;
+	char		*tmp;
 	
 	va_start(arg_ptr, format);
 	init_f(&f);
@@ -146,14 +146,14 @@ int		ft_printf(const char *format, ...)
 			f.flags->conversion = *ptr;
 			if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
 				res += ft_print_int(arg_ptr, &f);	
-		/*	if (*ptr == 's')
+			if (*ptr == 's')
 			{
 				if (!(tmp = va_arg(arg_ptr, char*)))
 					tmp = ft_strdup("(null)");
 				res += ft_print_string(tmp, f.flags);
 			}
 			if (*ptr == 'c')
-				res += ft_print_char(va_arg(arg_ptr, int), f.flags);*/
+				res += ft_print_char(va_arg(arg_ptr, int), f.flags);
 		}
 		ptr++;
 	}

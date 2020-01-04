@@ -80,7 +80,10 @@ int		get_number(va_list arg_ptr, t_f *f)
 		ll_arg = (char)va_arg(arg_ptr, int);
 	else
 		ll_arg = va_arg(arg_ptr, int);
-	f->number->digits = ft_itoa_base_long(ll_arg, 10, 0);
+	if (!ll_arg && f->flags->dot)
+		f->number->digits = ft_strdup("\0");
+	else
+		f->number->digits = ft_itoa_base_long(ll_arg, 10, 0);
 	if (ll_arg < 0)
 		return (-1);
 	return (1);
@@ -100,7 +103,10 @@ void		get_unsigned_number(va_list arg_ptr, t_f *f)
 		ull_arg = (unsigned char)va_arg(arg_ptr, unsigned int);
 	else
 		ull_arg = va_arg(arg_ptr, unsigned int);
-	f->number->digits = ft_itoa_base_unsigned(ull_arg, 10, 0);
+	if (!ull_arg && f->flags->dot)
+		f->number->digits = ft_strdup("\0");
+	else
+		f->number->digits = ft_itoa_base_unsigned(ull_arg, 10, 0);
 }
 
 void		get_hex_number(va_list arg_ptr, t_f *f)
@@ -148,9 +154,10 @@ void		get_oct_number(va_list arg_ptr, t_f *f)
 void	precision_case(t_f *f, int *len)
 {
 	f->number->zeros = n_char('0', f->flags->precision - *len, len);
-	if (f->flags->sharp && *(f->number->digits) != '\0')
+	if (f->flags->sharp)
 	{
-		if (f->flags->conversion == 'x' || f->flags->conversion == 'X')
+		if ((f->flags->conversion == 'x' || f->flags->conversion == 'X')
+			&& *(f->number->digits) != '\0')
 		{
 			f->number->ox = ft_strdup(f->flags->conversion == 'x' ? "0x" : "0X");
 			*len += 2;
