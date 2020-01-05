@@ -32,14 +32,37 @@ int		ft_print_char(va_list arg_ptr, t_f *f)
 	if (f->flags->percent)
 		f->character->c = '%';
 	else
-	{
 		f->character->c = (char)va_arg(arg_ptr, int);
-		if (f->flags->minus)
-			f->character->right = n_char(' ', f->flags->width - 1, &len);
-		else
-			f->character->left = n_char(' ', f->flags->width - 1, &len);
-	}
+	if (f->flags->minus)
+		f->character->right = n_char(' ', f->flags->width - 1, &len);
+	else
+		f->character->left = n_char(' ', f->flags->width - 1, &len);
 	print_and_free_char_struct(f->character);
+	free_flags(f->flags);
+	return (len);
+}
+
+void	get_adress(va_list arg_ptr, t_f *f)
+{
+	unsigned long long adress;
+
+	adress = (unsigned long long)va_arg(arg_ptr, void*);
+	f->number->digits = ft_itoa_base_unsigned(adress, 16, 0);
+}
+
+int		ft_print_adress(va_list arg_ptr, t_f *f)
+{
+	int		len;
+
+	//f->flags->conversion = 'x';
+	//f->flags->sharp = 1;
+	get_adress(arg_ptr, f);
+	len = ft_strlen(f->number->digits);
+	if (f->flags->dot)
+		precision_case(f, &len);
+	else
+		only_width_case(f, &len);
+	print_and_free_int_struct(f->number);
 	free_flags(f->flags);
 	return (len);
 }

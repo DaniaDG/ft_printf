@@ -24,12 +24,14 @@ int		main()
 	unsigned long  		ulmax = 9223372036854775807;
 	int		i;
 
-	i = ft_printf("%hu%#lx%hhx", ush_pos_1, ul_pos_1, uch_pos_1);
+
+
+	i = ft_printf("%p", (void*)123);
 	printf("\ni = %d", i);
 
 	printf("\n****************\n");
 
-	i = printf("%hu%#lx%hhx", ush_pos_1, ul_pos_1, uch_pos_1);
+	i = printf("%p", (void*)123);
 	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));

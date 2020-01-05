@@ -19,14 +19,14 @@ int		get_flags(char *ptr, t_flags *flags)
 
 	if (!ptr[i])
 		return (0);
-	if (ft_strchr("discouxX", ptr[i]))
+	if (ft_strchr("cspdiouxX", ptr[i]))
 		return (1);
-	while (ptr[i] && ft_strchr("hl0123456789 .+-#", ptr[i]))
+	while (ptr[i] && (ft_strchr("hl0123456789 .+-#", ptr[i]) || ptr[i] == '%'))
 	{
 		if (ptr[i] == '%')
 		{
 			flags->percent = 1;
-			return (i);
+			return (i + 1);
 		}
 		if (ptr[i] == '0')
 			flags->zero = 1;
@@ -38,7 +38,7 @@ int		get_flags(char *ptr, t_flags *flags)
 			flags->space = 1;
 		if (ptr[i] == '.')
 			flags->dot = 1;
-		if (ptr[i] == '#' && ptr[i - 1] == '%')
+		if (ptr[i] == '#')
 			flags->sharp = 1;
 		if (ptr[i] >= '1' && ptr[i] <= '9')
 		{
@@ -150,16 +150,27 @@ int		ft_printf(const char *format, ...)
 			write(1, ptr, 1);
 			res++;
 		}
+		//else if (*ptr == '%' && *(ptr + 1) == '\0')
+		//	break ;
 		else
 		{
 			ptr += get_flags(ptr + 1, f.flags);
-			f.flags->conversion = *ptr;
-			if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
+			if (!(f.flags->conversion = *ptr))
+				break ;
+			else if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
 				res += ft_print_int(arg_ptr, &f);	
-			if (*ptr == 's')
+			else if (*ptr == 's')
 				res += ft_print_string(arg_ptr, &f);
-			if (*ptr == 'c')
+			else if (*ptr == 'c' || *ptr == '%')
 				res += ft_print_char(arg_ptr, &f);
+			else if (*ptr == 'p')
+				res += ft_print_adress(arg_ptr, &f);
+			else
+			{
+				write(1, ptr, 1);
+				res++;
+				free_flags(f.flags);
+			}
 		}
 		ptr++;
 	}

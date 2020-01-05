@@ -42,7 +42,7 @@ char	*n_char(char c, int n, int *len)
 	return (str);
 }
 
-static void	print_and_free_int_struct(t_integer *number)
+void	print_and_free_int_struct(t_integer *number)
 {
 	if (number->left)
 		write(1, number->left, ft_strlen(number->left));
@@ -154,7 +154,12 @@ void		get_oct_number(va_list arg_ptr, t_f *f)
 void	precision_case(t_f *f, int *len)
 {
 	f->number->zeros = n_char('0', f->flags->precision - *len, len);
-	if (f->flags->sharp)
+	if (f->flags->conversion == 'p')
+		{
+			f->number->ox = ft_strdup("0x");
+			*len += 2;
+		}
+	else if (f->flags->sharp)
 	{
 		if ((f->flags->conversion == 'x' || f->flags->conversion == 'X')
 			&& *(f->number->digits) != '\0')
@@ -178,7 +183,12 @@ void	precision_case(t_f *f, int *len)
 
 void	only_width_case(t_f *f, int *len)
 {
-	if (f->flags->sharp && *(f->number->digits) != '0')
+	if (f->flags->conversion == 'p')
+		{
+			f->number->ox = ft_strdup("0x");
+			*len += 2;
+		}
+	else if (f->flags->sharp && *(f->number->digits) != '0')
 	{
 		if (f->flags->conversion == 'x' || f->flags->conversion == 'X')
 		{
@@ -222,13 +232,7 @@ int		ft_print_int(va_list arg_ptr, t_f *f)
 		}
 	}
 	if (f->flags->conversion == 'u')
-	{
 		get_unsigned_number(arg_ptr, f);
-		if (f->flags->plus)
-				f->number->sign = '+';
-			else if (f->flags->space)
-				f->number->sign = ' ';
-	}
 	if (f->flags->conversion == 'x' || f->flags->conversion == 'X')
 		get_hex_number(arg_ptr, f);
 	if (f->flags->conversion == 'o')

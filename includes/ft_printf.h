@@ -99,10 +99,14 @@ int		ft_intlen(int n);
 void	free_flags(t_flags *flags);
 int		ft_print_string(va_list arg_ptr, t_f *f);
 int		ft_print_char(va_list arg_ptr, t_f *f);
+int		ft_print_adress(va_list arg_ptr, t_f *f);
 char	*ft_itoa_base(int value, int base, int up);
 char	*ft_itoa_base_long(long long value, int base, int up);
 char	*ft_itoa_base_unsigned(unsigned long long value, int base, int up);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
+void	print_and_free_int_struct(t_integer *number);
+void	precision_case(t_f *f, int *len);
+void	only_width_case(t_f *f, int *len);
 
 #endif
