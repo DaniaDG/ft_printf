@@ -26,34 +26,33 @@ void	print_and_free_string_struct(t_string *string)
 	ft_memdel((void**)&string->right);
 }
 
-int		ft_print_string(char *arg, t_flags *flags)
+int		ft_print_string(va_list arg_ptr, t_f *f)
 {
 	int			len;
-	t_string	string;
+	char		*tmp;
 
-	string.left = NULL;
-	string.str = NULL;
-	string.right = NULL;
-	if (flags->dot)
+	if (!(tmp = va_arg(arg_ptr, char*)))
+		tmp = ft_strdup("(null)");
+	if (f->flags->dot)
 	{
-		if (!flags->precision)
+		if (!f->flags->precision)
 			len = 0;
 		else
 		{
-			string.str = ft_strsub(arg, 0, ft_min(flags->precision, ft_strlen(arg)));
-			len = ft_strlen(string.str);
+			f->string->str = ft_strsub(tmp, 0, ft_min(f->flags->precision, ft_strlen(tmp)));
+			len = ft_strlen(f->string->str);
 		}
 	}
 	else
 	{
-		string.str = ft_strdup(arg);
-		len = ft_strlen(string.str);
+		f->string->str = ft_strdup(tmp);
+		len = ft_strlen(f->string->str);
 	}
-	if (flags->minus)
-		string.right = n_char(' ', flags->width - len, &len);
+	if (f->flags->minus)
+		f->string->right = n_char(' ', f->flags->width - len, &len);
 	else
-		string.left = n_char(' ', flags->width - len, &len);
-	print_and_free_string_struct(&string);
-	free_flags(flags);
+		f->string->left = n_char(' ', f->flags->width - len, &len);
+	print_and_free_string_struct(f->string);
+	free_flags(f->flags);
 	return (len);
 }

@@ -23,6 +23,11 @@ int		get_flags(char *ptr, t_flags *flags)
 		return (1);
 	while (ptr[i] && ft_strchr("hl0123456789 .+-#", ptr[i]))
 	{
+		if (ptr[i] == '%')
+		{
+			flags->percent = 1;
+			return (i);
+		}
 		if (ptr[i] == '0')
 			flags->zero = 1;
 		if (ptr[i] == '-')
@@ -78,6 +83,7 @@ void	free_flags(t_flags *flags)
 	flags->precision = 0;
 	flags->space = 0;
 	flags->sharp = 0;
+	flags->percent = 0;
 	flags->h = 0;
 	flags->hh = 0;
 	flags->l = 0;
@@ -120,6 +126,10 @@ void	init_f(t_f *f)
 	f->number->right = NULL;
 	f->number->digits = NULL;
 	f->number->zeros = NULL;
+	f->character = (t_character*)malloc(sizeof(t_character));
+	f->character->left = NULL;
+	f->character->c = 0;
+	f->character->right = NULL;
 }
 
 int		ft_printf(const char *format, ...)
@@ -128,7 +138,7 @@ int		ft_printf(const char *format, ...)
 	char		*ptr;
 	t_f			f;
 	int			res = 0;
-	char		*tmp;
+
 	
 	va_start(arg_ptr, format);
 	init_f(&f);
@@ -147,13 +157,9 @@ int		ft_printf(const char *format, ...)
 			if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
 				res += ft_print_int(arg_ptr, &f);	
 			if (*ptr == 's')
-			{
-				if (!(tmp = va_arg(arg_ptr, char*)))
-					tmp = ft_strdup("(null)");
-				res += ft_print_string(tmp, f.flags);
-			}
+				res += ft_print_string(arg_ptr, &f);
 			if (*ptr == 'c')
-				res += ft_print_char(va_arg(arg_ptr, int), f.flags);
+				res += ft_print_char(arg_ptr, &f);
 		}
 		ptr++;
 	}

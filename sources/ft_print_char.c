@@ -21,22 +21,25 @@ void	print_and_free_char_struct(t_character *character)
 		write(1, character->right, ft_strlen(character->right));
 	ft_memdel((void**)&character->left);
 	ft_memdel((void**)&character->right);
+	character->c = 0;
 }
 
-int		ft_print_char(char ch, t_flags *flags)
+int		ft_print_char(va_list arg_ptr, t_f *f)
 {
-	t_character		character;
 	int				len;
 
-	character.left = NULL;
-	character.c = ch;
-	character.right = NULL;
 	len = 1;
-	if (flags->minus)
-		character.right = n_char(' ', flags->width - 1, &len);
+	if (f->flags->percent)
+		f->character->c = '%';
 	else
-		character.left = n_char(' ', flags->width - 1, &len);
-	print_and_free_char_struct(&character);
-	free_flags(flags);
+	{
+		f->character->c = (char)va_arg(arg_ptr, int);
+		if (f->flags->minus)
+			f->character->right = n_char(' ', f->flags->width - 1, &len);
+		else
+			f->character->left = n_char(' ', f->flags->width - 1, &len);
+	}
+	print_and_free_char_struct(f->character);
+	free_flags(f->flags);
 	return (len);
 }

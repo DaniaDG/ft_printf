@@ -30,6 +30,7 @@ typedef struct			s_flags
 	int		precision;
 	int		space;
 	int		sharp;
+	int		percent;
 	int		h;
 	int		hh;
 	int		l;
@@ -90,16 +91,14 @@ typedef enum
 }					t_reg;
 
 int		ft_printf(const char *format, ...);
-//int		ft_print_int(int arg, t_flags *flags);
-//int		ft_print_int(va_list arg_ptr, t_flags *flags);
+//
 int		ft_print_int(va_list arg_ptr, t_f *f);
 int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
-//int		ft_print_hex(va_list arg_ptr, t_flags *flags);
 char	*n_char(char c, int n, int *len);
 int		ft_intlen(int n);
 void	free_flags(t_flags *flags);
-int		ft_print_string(char *arg, t_flags *flags);
-int		ft_print_char(char ch, t_flags *t_flags);
+int		ft_print_string(va_list arg_ptr, t_f *f);
+int		ft_print_char(va_list arg_ptr, t_f *f);
 char	*ft_itoa_base(int value, int base, int up);
 char	*ft_itoa_base_long(long long value, int base, int up);
 char	*ft_itoa_base_unsigned(unsigned long long value, int base, int up);
