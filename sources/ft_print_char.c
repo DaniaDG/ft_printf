@@ -47,15 +47,16 @@ void	get_adress(va_list arg_ptr, t_f *f)
 	unsigned long long adress;
 
 	adress = (unsigned long long)va_arg(arg_ptr, void*);
-	f->number->digits = ft_itoa_base_unsigned(adress, 16, 0);
+	if (!adress && f->flags->dot)
+		f->number->digits = ft_strdup("\0");
+	else
+		f->number->digits = ft_itoa_base_unsigned(adress, 16, 0);
 }
 
 int		ft_print_adress(va_list arg_ptr, t_f *f)
 {
 	int		len;
 
-	//f->flags->conversion = 'x';
-	//f->flags->sharp = 1;
 	get_adress(arg_ptr, f);
 	len = ft_strlen(f->number->digits);
 	if (f->flags->dot)
