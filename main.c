@@ -26,12 +26,12 @@ int		main()
 
 
 
-	i = ft_printf("%.0p, %.p", 0, 0);
+	i = ft_printf("%mlod%", 123);
 	printf("\ni = %d", i);
 
 	printf("\n****************\n");
 
-	i = printf("%.0p, %.p", 0, 0);
+	i = printf("%mlod%", 123);
 	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));

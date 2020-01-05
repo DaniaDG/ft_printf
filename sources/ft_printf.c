@@ -19,15 +19,14 @@ int		get_flags(char *ptr, t_flags *flags)
 
 	if (!ptr[i])
 		return (0);
-	if (ft_strchr("cspdiouxX", ptr[i]))
-		return (1);
-	while (ptr[i] && (ft_strchr("hl0123456789 .+-#", ptr[i]) || ptr[i] == '%'))
+	if (ft_strchr("%cspdiouxX", ptr[i]))
 	{
 		if (ptr[i] == '%')
-		{
 			flags->percent = 1;
-			return (i + 1);
-		}
+		return (1);
+	}
+	while (ptr[i] && ft_strchr("hl0123456789 .+-#", ptr[i]))///check while ptr[i+1]
+	{
 		if (ptr[i] == '0')
 			flags->zero = 1;
 		if (ptr[i] == '-')
@@ -46,7 +45,7 @@ int		get_flags(char *ptr, t_flags *flags)
 				flags->precision = ft_atoi(&ptr[i]);
 			else
 				flags->width = ft_atoi(&ptr[i]);
-			while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')
+			while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')///check while ptr[i+1]
 				i++;
 			i--;
 		}
@@ -69,6 +68,11 @@ int		get_flags(char *ptr, t_flags *flags)
 			}
 		}
 		i++;
+		if (ptr[i] == '%')
+		{
+			flags->percent = 1;
+			break ;
+		}
 	}
 	return (i + 1);
 }
@@ -143,6 +147,8 @@ int		ft_printf(const char *format, ...)
 	va_start(arg_ptr, format);
 	init_f(&f);
 	ptr = (char *)format;
+	if (*ptr == '%' && *(ptr + 1) == '\0')
+		return (0) ;
 	while (*ptr)
 	{
 		if (*ptr != '%')
@@ -157,7 +163,7 @@ int		ft_printf(const char *format, ...)
 			ptr += get_flags(ptr + 1, f.flags);
 			if (!(f.flags->conversion = *ptr))
 				break ;
-			else if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
+			if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
 				res += ft_print_int(arg_ptr, &f);	
 			else if (*ptr == 's')
 				res += ft_print_string(arg_ptr, &f);
