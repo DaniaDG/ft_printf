@@ -52,7 +52,9 @@ PRINTF_HEADERS = $(addprefix $(PRINTF_HEADERS_DIRECTORY), $(PRINTF_HEADERS_LIST)
 
 PRINTF_SOURCES_DIRECTORY = ./sources/
 PRINTF_SOURCES_LIST = ft_printf.c ft_print_int.c ft_print_string.c ft_itoa_base.c \
-ft_print_char.c ft_itoa_base_long.c  ft_itoa_base_unsigned.c \
+ft_print_char.c ft_itoa_base_long.c  ft_itoa_base_unsigned.c init_struct.c \
+get_flags.c free_functions.c print_argument.c get_numbers.c other.c \
+di_case.c x_case.c o_case.c u_case.c      
 
 PRINTF_SOURCES = $(addprefix $(PRINTF_SOURCES_DIRECTORY), $(PRINTF_SOURCES_LIST))
 

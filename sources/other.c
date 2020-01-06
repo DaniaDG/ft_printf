@@ -1,27 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_int.c                                     :+:      :+:    :+:   */
+/*   other.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/27 13:33:45 by bsausage          #+#    #+#             */
-/*   Updated: 2019/12/27 13:33:47 by bsausage         ###   ########.fr       */
+/*   Created: 2019/12/23 10:59:16 by bsausage          #+#    #+#             */
+/*   Updated: 2019/12/23 10:59:17 by bsausage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_print_int(va_list arg_ptr, t_f *f)
+int		ft_max(int a, int b)
 {
+	if (a >= b)
+		return (a);
+	return (b);
+}
 
-	if (f->flags->conversion == 'd' || f->flags->conversion == 'i')
-		return (di_case(arg_ptr, f));
-	if (f->flags->conversion == 'u')
-		return (u_case(arg_ptr, f));
-	if (f->flags->conversion == 'x' || f->flags->conversion == 'X')
-		return (x_case(arg_ptr, f));
-	if (f->flags->conversion == 'o')
-		return (o_case(arg_ptr, f));
-	return (0);
+int		ft_min(int a, int b)
+{
+	if (a <= b)
+		return (a);
+	return (b);
+}
+
+char	*n_char(char c, int n, int *len)
+{
+	char	*str;
+	int		tmp;
+
+	if (n <= 0)
+		return (NULL);
+	tmp = n;
+	str = (char *)malloc(sizeof(char) * (n + 1));
+	str[n--] = '\0';
+	while (n >= 0)
+		str[n--] = c;
+	*len = *len + tmp;
+	return (str);
 }

@@ -92,10 +92,31 @@ typedef enum
 
 int		ft_printf(const char *format, ...);
 //
+void	init_f(t_f *f);
+int		get_flags(char *ptr, t_flags *flags);
 int		ft_print_int(va_list arg_ptr, t_f *f);
 int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
+//
+void	print_and_free_int_struct(t_integer *number);
+void	print_and_free_string_struct(t_string *string);
+void	print_and_free_char_struct(t_character *character);
+
+void	free_int_struct(t_integer *number);
+void	free_string_srtuct(t_string *string);
+void	free_char_srtuct(t_character *character);
+//
+int		get_number(va_list arg_ptr, t_f *f);
+void	get_unsigned_number(va_list arg_ptr, t_f *f);
+void	get_hex_number(va_list arg_ptr, t_f *f);
+void	get_oct_number(va_list arg_ptr, t_f *f);
+//
+int		di_case(va_list arg_ptr, t_f *f);
+int		x_case(va_list arg_ptr, t_f *f);
+int		o_case(va_list arg_ptr, t_f *f);
+int		u_case(va_list arg_ptr, t_f *f);
+int		p_case(va_list arg_ptr, t_f *f);
+
 char	*n_char(char c, int n, int *len);
-int		ft_intlen(int n);
 void	free_flags(t_flags *flags);
 int		ft_print_string(va_list arg_ptr, t_f *f);
 int		ft_print_char(va_list arg_ptr, t_f *f);

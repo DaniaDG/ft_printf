@@ -11,130 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
-
-int		get_flags(char *ptr, t_flags *flags)
-{
-	int		i = 0;
-
-	if (!ptr[i])
-		return (0);
-	if (ft_strchr("%cspdiouxX", ptr[i]))
-	{
-		if (ptr[i] == '%')
-			flags->percent = 1;
-		return (1);
-	}
-	while (ptr[i] && ft_strchr("hl0123456789 .+-#", ptr[i]))///check while ptr[i+1]
-	{
-		if (ptr[i] == '0')
-			flags->zero = 1;
-		if (ptr[i] == '-')
-			flags->minus = 1;
-		if (ptr[i] == '+')
-			flags->plus = 1;
-		if (ptr[i] == ' ')
-			flags->space = 1;
-		if (ptr[i] == '.')
-			flags->dot = 1;
-		if (ptr[i] == '#')
-			flags->sharp = 1;
-		if (ptr[i] >= '1' && ptr[i] <= '9')
-		{
-			if (flags->dot)
-				flags->precision = ft_atoi(&ptr[i]);
-			else
-				flags->width = ft_atoi(&ptr[i]);
-			while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')///check while ptr[i+1]
-				i++;
-			i--;
-		}
-		if (ptr[i] == 'h')
-		{
-			flags->h = 1;
-			if (ptr[i - 1] == 'h')
-			{
-				flags->hh = 1;
-				flags->h = 0;
-			}
-		}
-		if (ptr[i] == 'l')
-		{
-			flags->l = 1;
-			if (ptr[i - 1] == 'l')
-			{
-				flags->ll = 1;
-				flags->l = 0;
-			}
-		}
-		i++;
-		if (ptr[i] == '%')
-		{
-			flags->percent = 1;
-			break ;
-		}
-	}
-	return (i + 1);
-}
-
-void	free_flags(t_flags *flags)
-{
-	flags->zero = 0;
-	flags->plus = 0;
-	flags->minus = 0;
-	flags->width = 0;
-	flags->dot = 0;
-	flags->precision = 0;
-	flags->space = 0;
-	flags->sharp = 0;
-	flags->percent = 0;
-	flags->h = 0;
-	flags->hh = 0;
-	flags->l = 0;
-	flags->ll = 0;
-	flags->conversion = 0;
-}
-
-int		ft_intlen(int n)
-{
-	int len = 0;
-
-	if (!n)
-		return (1);
-	while (n)
-	{
-		n = n / 10;
-		len++;
-	}
-	return (len);
-}
-
-void	ft_print_nchar(char c, int i)
-{
-	while (i-- > 0)
-		write(1, &c, 1);
-}
-
-void	init_f(t_f *f)
-{
-	f->flags = (t_flags*)malloc(sizeof(t_flags));
-	free_flags(f->flags);
-	f->string = (t_string*)malloc(sizeof(t_string));
-	f->string->left = NULL;
-	f->string->str = NULL;
-	f->string->right = NULL;
-	f->number = (t_integer*)malloc(sizeof(t_integer));
-	f->number->sign = 0;
-	f->number->ox = NULL;
-	f->number->left = NULL;
-	f->number->right = NULL;
-	f->number->digits = NULL;
-	f->number->zeros = NULL;
-	f->character = (t_character*)malloc(sizeof(t_character));
-	f->character->left = NULL;
-	f->character->c = 0;
-	f->character->right = NULL;
-}
 
 int		ft_printf(const char *format, ...)
 {
@@ -156,8 +32,6 @@ int		ft_printf(const char *format, ...)
 			write(1, ptr, 1);
 			res++;
 		}
-		//else if (*ptr == '%' && *(ptr + 1) == '\0')
-		//	break ;
 		else
 		{
 			ptr += get_flags(ptr + 1, f.flags);
@@ -170,7 +44,7 @@ int		ft_printf(const char *format, ...)
 			else if (*ptr == 'c' || *ptr == '%')
 				res += ft_print_char(arg_ptr, &f);
 			else if (*ptr == 'p')
-				res += ft_print_adress(arg_ptr, &f);
+				res += p_case(arg_ptr, &f);
 			else
 			{
 				write(1, ptr, 1);

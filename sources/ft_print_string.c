@@ -13,18 +13,6 @@
 
 #include "ft_printf.h"
 
-void	print_and_free_string_struct(t_string *string)
-{
-	if (string->left)
-		write(1, string->left, ft_strlen(string->left));
-	if (string->str)
-		write(1, string->str, ft_strlen(string->str));
-	if (string->right)
-		write(1, string->right, ft_strlen(string->right));
-	ft_memdel((void**)&string->left);
-	ft_memdel((void**)&string->str);
-	ft_memdel((void**)&string->right);
-}
 
 int		ft_print_string(va_list arg_ptr, t_f *f)
 {
