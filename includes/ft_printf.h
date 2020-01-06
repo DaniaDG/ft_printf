@@ -62,19 +62,22 @@ typedef struct			s_character
 	char	*right;
 }						t_character;
 
-typedef struct			s_size_number
+typedef struct			s_fp_format
 {
-	char					short_short_arg;
-	short					short_arg;
-	int						int_arg;
-	long					long_arg;
-	long long				long_long_arg;
-	unsigned char			u_short_short_arg;
-	unsigned short			u_short_arg;
-	unsigned int			u_int_arg;
-	unsigned long			u_long_arg;
-	unsigned long long		u_long_long_arg;
-}						t_size_number;
+	unsigned int			sign : 1;
+	unsigned int			exponent : 11;
+	unsigned long long		fraction : 52;
+
+	/*unsigned long long		fraction : 52;
+	unsigned int			exponent : 11;
+	unsigned int			sign : 1;*/
+}						t_fp_format;
+
+union union_type
+{
+	long double				ld;
+	unsigned char			bit[64];
+};
 
 typedef struct			s_f
 {

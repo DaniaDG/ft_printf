@@ -22,17 +22,34 @@ int		main()
 	unsigned long long	ull_pos_1 = 22337203685477;
 	unsigned long long  ullmax = 9223372036854775807;
 	unsigned long  		ulmax = 9223372036854775807;
-	int		i;
+	int		i = 0;
+	int		n = sizeof(long double);
+	union union_type	tmp;
+	double			f = 0.3333333333;
+	//unsigned long long	a = 1;
+
+	//a = a << 52;
+	tmp.ld = (long double)4.123;
+
+	printf("%d\n", n);
+	while (i < 64)
+		printf("%u", tmp.bit[i++]);
+	//printf("sign = %s\n", ft_itoa_base_unsigned(tmp.ld_part.sign, 2, 0));
+	//printf("exponent = %s\n", ft_itoa_base_unsigned(tmp.ld_part.exponent, 2, 0));
+	//printf("fraction = %s\n", ft_itoa_base_unsigned(tmp.ld_part.fraction, 2, 0));
 
 
-
-	i = ft_printf("%mlod%", 123);
+	//printf("sign = %x\n", tmp.ld_part.sign);
+	//printf("exponent = %x\n", tmp.ld_part.exponent);
+	//printf("fraction = %llx\n", tmp.ld_part.fraction);
+	//printf("number = %Lf\n", tmp.ld);
+	/*i = ft_printf("%010s", "123");
 	printf("\ni = %d", i);
 
 	printf("\n****************\n");
 
-	i = printf("%mlod%", 123);
-	printf("\ni = %d", i);
+	i = printf("%010s", "123");
+	printf("\ni = %d", i);*/
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));
 	return (0);
