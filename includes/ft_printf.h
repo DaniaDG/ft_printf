@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include "libft.h"
 # include <stdio.h>
+# include <math.h>
 
 
 typedef struct			s_flags
@@ -64,19 +65,18 @@ typedef struct			s_character
 
 typedef struct			s_fp_format
 {
-	unsigned int			sign : 1;
-	unsigned int			exponent : 11;
-	unsigned long long		fraction : 52;
-
-	/*unsigned long long		fraction : 52;
-	unsigned int			exponent : 11;
-	unsigned int			sign : 1;*/
+	unsigned int			sign;
+	unsigned int			exponent;
+	unsigned long long		fraction;
 }						t_fp_format;
 
 union union_type
 {
-	long double				ld;
-	unsigned char			bit[64];
+	double				ld;
+	//unsigned int			sign : 1;
+	//unsigned int			exponent : 11;
+	//unsigned long long		fraction : 52;
+	unsigned char					bit[64];
 };
 
 typedef struct			s_f
