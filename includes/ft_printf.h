@@ -65,19 +65,18 @@ typedef struct			s_character
 
 typedef struct			s_fp_format
 {
-	unsigned int			sign;
-	unsigned int			exponent;
-	unsigned long long		fraction;
+	unsigned long long		fraction : 64;
+	unsigned int			exponent : 16;
+	unsigned int			sign : 1;
 }						t_fp_format;
 
 union union_type
 {
-	double				ld;
-	//unsigned int			sign : 1;
-	//unsigned int			exponent : 11;
-	//unsigned long long		fraction : 52;
-	unsigned char					bit[64];
+	long double					ld;
+	unsigned char			bit[10];
+	t_fp_format				part;
 };
+
 
 typedef struct			s_f
 {
@@ -86,6 +85,7 @@ typedef struct			s_f
 	t_integer		*number;
 	t_character		*character;
 }						t_f;
+
 
 typedef enum
 {
@@ -132,5 +132,7 @@ int		ft_min(int a, int b);
 void	print_and_free_int_struct(t_integer *number);
 void	precision_case(t_f *f, int *len);
 void	only_width_case(t_f *f, int *len);
+
+int		multiply();
 
 #endif
