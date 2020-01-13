@@ -13,7 +13,7 @@
 NAME = libftprintf.a
 
 CC = gcc
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g
 INCLUDES = -I$(PRINTF_HEADERS_DIRECTORY) -I$(LIBFT_HEADERS_DIRECTORY) 
 
 # LIBFT

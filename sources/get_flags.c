@@ -18,7 +18,7 @@ int		get_flags(char *ptr, t_flags *flags)
 
 	if (!ptr[i])
 		return (0);
-	if (ft_strchr("%cspdiouxX", ptr[i]))
+	if (ft_strchr("%fcspdiouxX", ptr[i]))
 	{
 		if (ptr[i] == '%')
 			flags->percent = 1;

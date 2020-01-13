@@ -25,7 +25,7 @@ int		main()
 	int		i = 10;
 	union union_type	tmp;
 	t_fp_format			fp;
-	long double			f = 4.123;
+	long double			f = 433259.123;
 
 	/*tmp.ld = f;
 	while (i-- > 0)
@@ -42,7 +42,6 @@ int		main()
 	printf("sign = %s\n", ft_itoa_base_unsigned(tmp.sign, 2, 0));
 	printf("exponent = %s\n", ft_itoa_base_unsigned(tmp.exponent, 2, 0));
 	printf("fraction = %s\n", ft_itoa_base_unsigned(tmp.fraction, 2, 0));*/
-	multiply();
 	//printf("sign = %x\n", tmp.part.sign);
 	//printf("exponent = %x   (%u)\n", tmp.part.exponent, tmp.part.exponent);
 	//printf("fraction = %llx   (%llu)\n", tmp.part.fraction, tmp.part.fraction);
@@ -57,5 +56,7 @@ int		main()
 	//printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));
+
+	ft_printf("%f\n", f);
 	return (0);
 }

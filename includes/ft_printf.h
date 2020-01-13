@@ -73,7 +73,7 @@ typedef struct			s_fp_format
 union union_type
 {
 	long double					ld;
-	unsigned char			bit[10];
+	//unsigned char			bit[10];
 	t_fp_format				part;
 };
 
@@ -133,6 +133,7 @@ void	print_and_free_int_struct(t_integer *number);
 void	precision_case(t_f *f, int *len);
 void	only_width_case(t_f *f, int *len);
 
-int		multiply();
+int		multiply(va_list arg_ptr);
+
 
 #endif
