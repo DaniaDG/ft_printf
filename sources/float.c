@@ -22,6 +22,7 @@ int		ld_len(long double number)
 		number /= 10;
 		len++;
 	}
+	printf("ld_len = %d\n", len);
 	return (len);
 }
 
@@ -43,10 +44,10 @@ int		multiply(va_list arg_ptr)
 	}
 	number.ld = ld;
 
-	printf("sign = %x\n", number.part.sign);
+	//printf("sign = %x\n", number.part.sign);
 	printf("exponent = %x   (%u)\n", number.part.exponent, number.part.exponent);
 	printf("fraction = %llx   (%llu)\n", number.part.fraction, number.part.fraction);
-	printf("number = %.80Lf\n", number.ld);
+	//printf("number = %.80Lf\n", number.ld);
 	//printf("%zu\n", ft_strlen("123456789012345677877719597056"));
 	tmp = number.part.fraction;
 	i = 0;
@@ -55,17 +56,17 @@ int		multiply(va_list arg_ptr)
 		rank[i++] = tmp % 100000000;
 		tmp = tmp / 100000000;
 	}
-	i = 0;
-	while (i < 10)
-		printf("%ld\n", rank[i++]);
-	printf("****************************\n");
+	
+	//i = 0;
+	//while (i < 10)
+	//	printf("%ld\n", rank[i++]);
+	//printf("****************************\n");
 	int exp = number.part.exponent - 16383 - 63;
-	int len = ld_len(ld) + abs(exp);
-	int dot = len - abs(exp);
+	int dot = ld_len(ld);
+	
 	printf("exponent = %d\n", exp);
-	printf("len = %d\n", len);
 	printf("dot = %d\n", dot);
-	//exp = 5;
+
 	if (exp > 0)
 	{
 		while (exp)
@@ -99,27 +100,25 @@ int		multiply(va_list arg_ptr)
 			exp--;
 		}
 	}
-	//
-	i = 49;
-	int	k = 10000000;
+	int len = 0;
 	while (!rank[i])
 		i--;
-	//while (rank[i] / (int)pow(10.0, k) == 0)
-	//	k--;
-	//k++;
+	int k = 1;
+	while (rank[i] / k)
+	{
+		len++;
+		k *= 10;
+	}
+	len += i * 8;
+	printf("len = %d\n", len);
 	char	*str;
 	char	*tmp_str;
-	str = (char *)malloc(sizeof(char) * (len + 2));
+	str = (char *)malloc(sizeof(char) * (len + 1));
 	tmp_str = str;
-	str[dot] = '.';
-	str[len + 1] = 0;
-	while (*str != '.' && k)
-	{
-		*str = rank[i] / k + '0';
-		rank[i] %= k;
-		str += *str == '0' ? 0 : 1;
+	str[len] = 0;
+	k = 10000000;
+	while (rank[i] / k == 0)
 		k /= 10;
-	}
 	if (!k)
 		i--;
 	while (i >= 0)
@@ -128,8 +127,6 @@ int		multiply(va_list arg_ptr)
 			k = 10000000;
 		while (k)
 		{
-			if (*str == '.')
-				str++;
 			*str = rank[i] / k + '0';
 			rank[i] %= k;
 			str++;
@@ -138,7 +135,23 @@ int		multiply(va_list arg_ptr)
 		i--;
 	}
 	//
-		printf("%s", tmp_str);
-		//write(1, tmp_str, ft_strlen(tmp_str));
+		//printf("%s", tmp_str);
+		write(1, tmp_str, ft_strlen(tmp_str));
+		printf("\n");
+	exp = number.part.exponent - 16383 - 63;
+	if (exp < 0)
+	{
+		i = ft_strlen(tmp_str) + exp;
+		write(1, tmp_str, i);
+		write(1, ".", 1);
+		write(1, &tmp_str[i], ft_strlen(&tmp_str[i]));
+	}
+	else
+	{
+		i = ft_strlen(tmp_str) - exp;
+		write(1, tmp_str, i);
+		write(1, ".", 1);
+		write(1, &tmp_str[i], ft_strlen(&tmp_str[i]));
+	}
 	return (0);
 }

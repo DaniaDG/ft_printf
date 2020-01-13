@@ -66,7 +66,7 @@ typedef struct			s_character
 typedef struct			s_fp_format
 {
 	unsigned long long		fraction : 64;
-	unsigned int			exponent : 16;
+	unsigned int			exponent : 15;
 	unsigned int			sign : 1;
 }						t_fp_format;
 
