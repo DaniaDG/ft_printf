@@ -26,6 +26,20 @@ int		ld_len(long double number)
 	return (len);
 }
 
+/*void	round(char *str, int i)
+{
+	if (i >= ft_strlen(str))
+		return ;
+	if (str[i] > 5)
+	{
+		if (str[i - 1] != '9')
+			str[i - 1]++;
+		else
+			str[i - 1] = '0';	
+	}
+}*/
+
+
 int		multiply(va_list arg_ptr)
 {
 	unsigned long long	tmp;
@@ -142,6 +156,7 @@ int		multiply(va_list arg_ptr)
 	if (exp < 0)
 	{
 		i = ft_strlen(tmp_str) + exp;
+		//round(tmp_str, i + 6);
 		write(1, tmp_str, i);
 		write(1, ".", 1);
 		write(1, &tmp_str[i], ft_strlen(&tmp_str[i]));
