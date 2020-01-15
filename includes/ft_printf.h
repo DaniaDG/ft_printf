@@ -21,6 +21,7 @@
 # include <math.h>
 
 
+
 typedef struct			s_flags
 {
 	int		zero;
@@ -36,6 +37,7 @@ typedef struct			s_flags
 	int		hh;
 	int		l;
 	int		ll;
+	int		lf;
 	char	 conversion;
 }						t_flags;
 
@@ -133,7 +135,9 @@ void	print_and_free_int_struct(t_integer *number);
 void	precision_case(t_f *f, int *len);
 void	only_width_case(t_f *f, int *len);
 
-int		multiply(va_list arg_ptr);
+int		multiply(va_list arg_ptr, t_f *f);
+void	rounding(char *str_ptr);
+void	test();
 
 
 #endif

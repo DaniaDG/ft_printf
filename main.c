@@ -23,18 +23,18 @@ int		main()
 	//unsigned long long  ullmax = 9223372036854775807;
 	//unsigned long  		ulmax = 9223372036854775807;
 	int		i;
-	long double			f = 84555258515454845454999.12345;
+	long double			f = 999999999999999999999999999999999999999999999999.999;
 
 	i = ft_printf("%f", f);
 	printf("\ni = %d", i);
 
 	printf("\n****************\n");
 
-	i = printf("%.100Lf", f);
+	i = printf("%Lf", f);
 	printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));
-
+	//test();
 	//ft_printf("%f\n", f);
 	return (0);
 }

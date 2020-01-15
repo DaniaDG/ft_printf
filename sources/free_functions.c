@@ -28,6 +28,7 @@ void	free_flags(t_flags *flags)
 	flags->hh = 0;
 	flags->l = 0;
 	flags->ll = 0;
+	flags->lf = 0;
 	flags->conversion = 0;
 }
 

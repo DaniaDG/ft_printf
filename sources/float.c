@@ -12,6 +12,8 @@
 
 #include "ft_printf.h"
 
+void	mult(long *m1, long *m2);
+
 int		ld_len(long double number)
 {
 	int len;
@@ -26,72 +28,41 @@ int		ld_len(long double number)
 	return (len);
 }
 
-/*void	round(char *str, int i)
-{
-	if (i >= ft_strlen(str))
-		return ;
-	if (str[i] > 5)
-	{
-		if (str[i - 1] != '9')
-			str[i - 1]++;
-		else
-			str[i - 1] = '0';	
-	}
-}*/
-
-
-int		multiply(va_list arg_ptr)
+int		multiply(va_list arg_ptr, t_f *f)
 {
 	unsigned long long	tmp;
 	union union_type	number;
 	long				rank[50];
-
-	//double				d = 0;
-	long double			ld = va_arg(arg_ptr, long double);
-	//float				f = 0;
+	long				power[50];
 
 	int i = 0;
 	while (i < 50)
 	{
 		rank[i] = 0;
+		power[i] = 0;
 		i++;
 	}
-	number.ld = ld;
-
-	//printf("sign = %x\n", number.part.sign);
-	printf("exponent = %x   (%u)\n", number.part.exponent, number.part.exponent);
-	printf("fraction = %llx   (%llu)\n", number.part.fraction, number.part.fraction);
-	//printf("number = %.80Lf\n", number.ld);
-	//printf("%zu\n", ft_strlen("123456789012345677877719597056"));
+	number.ld = va_arg(arg_ptr, long double);
 	tmp = number.part.fraction;
-	i = 0;
+	i = 1;
 	while (tmp)
 	{
-		rank[i++] = tmp % 100000000;
-		tmp = tmp / 100000000;
+		rank[i++] = tmp % 10000;
+		tmp = tmp / 10000;
 	}
-	
-	//i = 0;
-	//while (i < 10)
-	//	printf("%ld\n", rank[i++]);
-	//printf("****************************\n");
-	int exp = number.part.exponent - 16383 - 63;
-	int dot = ld_len(ld);
-	
-	printf("exponent = %d\n", exp);
-	printf("dot = %d\n", dot);
 
+	int exp = number.part.exponent - 16383 - 63;
+	power[1] = 1;
 	if (exp > 0)
 	{
 		while (exp)
 		{
-			i = 0;
-			rank[i++] *= 2;
+			i = 1;
 			while (i < 25)
 			{
-				rank[i] *= 2;
-				rank[i] += rank[i - 1] / 100000000;
-				rank[i - 1] = rank[i - 1] % 100000000;
+				power[i] *= 2;
+				power[i] += power[i - 1] / 10000;
+				power[i - 1] = power[i - 1] % 10000;
 				i++;
 			}
 			exp--;
@@ -102,18 +73,18 @@ int		multiply(va_list arg_ptr)
 		exp *= -1;
 		while (exp)
 		{
-			i = 0;
-			rank[i++] *= 5;
+			i = 1;
 			while (i < 25)
 			{
-				rank[i] *= 5;
-				rank[i] += rank[i - 1] / 100000000;
-				rank[i - 1] = rank[i - 1] % 100000000;
+				power[i] *= 5;
+				power[i] += power[i - 1] / 10000;
+				power[i - 1] = power[i - 1] % 10000;
 				i++;
 			}
 			exp--;
 		}
 	}
+	mult(rank, power);
 	int len = 0;
 	while (!rank[i])
 		i--;
@@ -123,22 +94,23 @@ int		multiply(va_list arg_ptr)
 		len++;
 		k *= 10;
 	}
-	len += i * 8;
-	printf("len = %d\n", len);
+	len += i * 4;
+	//printf("len = %d\n", len);
 	char	*str;
 	char	*tmp_str;
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = (char *)malloc(sizeof(char) * (len + 2));
 	tmp_str = str;
-	str[len] = 0;
-	k = 10000000;
+	str[len + 1] = 0;
+	*str++ = '0';
+	k = 1000;
 	while (rank[i] / k == 0)
 		k /= 10;
 	if (!k)
 		i--;
-	while (i >= 0)
+	while (i > 0)
 	{
 		if (!k)
-			k = 10000000;
+			k = 1000;
 		while (k)
 		{
 			*str = rank[i] / k + '0';
@@ -148,25 +120,50 @@ int		multiply(va_list arg_ptr)
 		}
 		i--;
 	}
-	//
-		//printf("%s", tmp_str);
-		write(1, tmp_str, ft_strlen(tmp_str));
-		printf("\n");
+	
 	exp = number.part.exponent - 16383 - 63;
 	if (exp < 0)
 	{
-		i = ft_strlen(tmp_str) + exp;
-		//round(tmp_str, i + 6);
+		if ((i = ft_strlen(++tmp_str) + exp) < 0)
+		{
+			write(1, "0.", 2);
+			while (i++ <= 0)
+				write(1, "0", 1);
+			write(1, tmp_str, ft_strlen(tmp_str));
+		}
+		else
+		{
+			if (f->flags->precision)
+				rounding(tmp_str + i + f->flags->precision);
+			else
+				rounding(tmp_str + i + 6);
+			if (*(tmp_str - 1) != '0')
+				write(1, tmp_str - 1, 1);
+			write(1, tmp_str, i);
+			write(1, ".", 1);
+			write(1, &tmp_str[i], ft_strlen(&tmp_str[i]));
+		}
+	}
+	else if (exp > 0)
+	{
+		i = ft_strlen(++tmp_str);
 		write(1, tmp_str, i);
 		write(1, ".", 1);
-		write(1, &tmp_str[i], ft_strlen(&tmp_str[i]));
+		//write(1, &tmp_str[i], ft_strlen(&tmp_str[i]));
 	}
 	else
 	{
-		i = ft_strlen(tmp_str) - exp;
-		write(1, tmp_str, i);
+		if (f->flags->precision)
+			rounding(tmp_str + i + f->flags->precision);
+		else
+			rounding(tmp_str + i + 6);
+		write(1, tmp_str, 1);
 		write(1, ".", 1);
-		write(1, &tmp_str[i], ft_strlen(&tmp_str[i]));
+		write(1, &tmp_str[i + 1], ft_strlen(&tmp_str[i + 1]));
 	}
+	free_flags(f->flags);
+	i = 30;
+	while (i > 0)
+		ft_printf("%04ld", rank[i--]);
 	return (0);
 }

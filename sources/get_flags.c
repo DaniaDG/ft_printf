@@ -24,7 +24,7 @@ int		get_flags(char *ptr, t_flags *flags)
 			flags->percent = 1;
 		return (1);
 	}
-	while (ptr[i] && ft_strchr("hl0123456789 .+-#", ptr[i]))///check while ptr[i+1]
+	while (ptr[i] && ft_strchr("Lhl0123456789 .+-#", ptr[i]))///check while ptr[i+1]
 	{
 		if (ptr[i] == '0')
 			flags->zero = 1;
@@ -59,12 +59,18 @@ int		get_flags(char *ptr, t_flags *flags)
 		}
 		if (ptr[i] == 'l')
 		{
+			flags->lf = 0;
 			flags->l = 1;
 			if (ptr[i - 1] == 'l')
 			{
 				flags->ll = 1;
 				flags->l = 0;
 			}
+		}
+		if (ptr[i] == 'L')
+		{
+			flags->lf = 1;
+			flags->l = 0;
 		}
 		i++;
 		if (ptr[i] == '%')

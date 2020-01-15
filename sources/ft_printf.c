@@ -46,7 +46,7 @@ int		ft_printf(const char *format, ...)
 			else if (*ptr == 'p')
 				res += p_case(arg_ptr, &f);
 			else if (*ptr == 'f')
-				multiply(arg_ptr);
+				multiply(arg_ptr, &f);
 			else
 			{
 				write(1, ptr, 1);
