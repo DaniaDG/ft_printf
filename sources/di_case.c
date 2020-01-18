@@ -34,7 +34,7 @@ static void	di_precision_case(t_f *f, int *len)
 		f->number->left = n_char(' ', f->flags->width - *len, len);
 }
 
-static void	di_only_width_case(t_f *f, int *len)
+void	di_only_width_case(t_f *f, int *len)
 {
 	*len += f->number->sign ? 1 : 0;
 	if (f->flags->minus)

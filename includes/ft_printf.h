@@ -51,6 +51,16 @@ typedef struct			s_integer
 	char	*right;
 }						t_integer;
 
+typedef struct			s_float
+{
+	char	*left;
+	char	sign;
+	char	*zeros;
+	char	*whole_part;
+	char	*fract_part;
+	char	*right;
+}						t_float;
+
 typedef struct			s_srting
 {
 	char	*left;
@@ -85,6 +95,7 @@ typedef struct			s_f
 	t_flags			*flags;
 	t_string		*string;
 	t_integer		*number;
+	t_float			*f_number;
 	t_character		*character;
 }						t_f;
 
@@ -105,6 +116,7 @@ int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
 void	print_and_free_int_struct(t_integer *number);
 void	print_and_free_string_struct(t_string *string);
 void	print_and_free_char_struct(t_character *character);
+void	print_and_free_float_struct(t_float *number);
 
 void	free_int_struct(t_integer *number);
 void	free_string_srtuct(t_string *string);
@@ -120,6 +132,7 @@ int		x_case(va_list arg_ptr, t_f *f);
 int		o_case(va_list arg_ptr, t_f *f);
 int		u_case(va_list arg_ptr, t_f *f);
 int		p_case(va_list arg_ptr, t_f *f);
+int		f_case(va_list arg_ptr, t_f *f);
 
 char	*n_char(char c, int n, int *len);
 void	free_flags(t_flags *flags);
@@ -136,8 +149,11 @@ void	precision_case(t_f *f, int *len);
 void	only_width_case(t_f *f, int *len);
 
 int		multiply(va_list arg_ptr, t_f *f);
+void	mult(long *m1, long *m2);
 void	rounding(char *str_ptr);
 void	test();
+
+void	di_only_width_case(t_f *f, int *len);
 
 
 #endif

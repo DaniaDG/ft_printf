@@ -29,6 +29,23 @@ void	print_and_free_int_struct(t_integer *number)
 	free_int_struct(number);
 }
 
+void	print_and_free_float_struct(t_float *number)
+{
+	if (number->left)
+		write(1, number->left, ft_strlen(number->left));
+	if (number->sign)
+		write(1, &(number->sign), 1);
+	if (number->zeros)
+		write(1, number->zeros, ft_strlen(number->zeros));
+	if (number->whole_part)
+		write(1, number->whole_part, ft_strlen(number->whole_part));
+	if (number->fract_part)
+		write(1, number->fract_part, ft_strlen(number->fract_part));
+	if (number->right)
+		write(1, number->right, ft_strlen(number->right));
+	//free_int_struct(number);
+}
+
 void	print_and_free_string_struct(t_string *string)
 {
 	if (string->left)

@@ -23,9 +23,9 @@ int		main()
 	//unsigned long long  ullmax = 9223372036854775807;
 	//unsigned long  		ulmax = 9223372036854775807;
 	int		i;
-	long double			f = 999999999999999999999999999999999999999999999999.999;
+	long double			f = 2252515.0000546587748653165;
 
-	i = ft_printf("%f", f);
+	i = ft_printf("%Lf", f);
 	printf("\ni = %d", i);
 
 	printf("\n****************\n");
