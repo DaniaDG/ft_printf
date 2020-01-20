@@ -25,3 +25,4 @@ gcc -g main.c libftprintf.a -I includes -I libft/includes
 845 5525 8515 4548 4027 4944
 
 + 898 989 898 989 899 897 690 902 233 088 .000               $
+

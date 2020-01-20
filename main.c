@@ -12,29 +12,34 @@
 
 #include <stdio.h>
 #include "ft_printf.h"
+#include <limits.h>
+
+#include "ft_printf.h"
+
 
 int		main()
 {
-	//unsigned char 		uch_pos_1 = 100;
-	//unsigned short		ush_pos_1 = 3047;
-	//unsigned int		ui_pos_1 = 878023;
-	//unsigned long		ul_pos_1 = 22337203685477;
-	//unsigned long long	ull_pos_1 = 22337203685477;
-	//unsigned long long  ullmax = 9223372036854775807;
-	//unsigned long  		ulmax = 9223372036854775807;
-	int		i;
-	long double			f = 2252515.0000546587748653165;
+	int		i = 0;
+	float			f = 73.99125722752572579000;
+	ULL		arr[MAX_RANK];
+	
+	while (i < MAX_RANK)
+		arr[i++] = 0;
+	get(arr, -10);
+	while (arr[i] != (ULL)(-1))
+		i--;
+	i--;
+	while (i)
+		printf("%09llu", arr[i--]);
+	//i =  ft_printf("%f", f);
+	//printf("\n");
+	//    	printf("%f", f);
+	//printf("\n****************\n");
 
-	i = ft_printf("%Lf", f);
-	printf("\ni = %d", i);
-
-	printf("\n****************\n");
-
-	i = printf("%Lf", f);
-	printf("\ni = %d", i);
+	// i = printf("%.20f", -99.999999);
+	// printf("\ni = %d", i);
 
 	//printf("\ns = %s", ft_itoa_base(123456, 10));
-	//test();
-	//ft_printf("%f\n", f);
+
 	return (0);
 }

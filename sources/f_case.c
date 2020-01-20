@@ -12,12 +12,12 @@
 
 #include "ft_printf.h"
 
-void	fill_array_by_zero(long *rank, long *power)
+void	fill_array_by_zero(ULL *rank, ULL *power)
 {
 	int		i;
 
 	i = 0;
-	while (i < 50)
+	while (i < MAX_RANK)
 	{
 		rank[i] = 0;
 		power[i] = 0;
@@ -25,19 +25,19 @@ void	fill_array_by_zero(long *rank, long *power)
 	}
 }
 
-void	get_fraction(long *rank, unsigned long long fraction)
+void	get_fraction(ULL *rank, ULL fraction)
 {
 	int		i;
 
 	i = 1;
 	while (fraction)
 	{
-		rank[i++] = fraction % 10000;
-		fraction = fraction / 10000;
+		rank[i++] = fraction % 1000000000;
+		fraction = fraction / 1000000000;
 	}
 }
 
-void	get(long *power, int exp)
+/*void	get(ULL *power, int exp)
 {
 	int		i;
 
@@ -47,11 +47,11 @@ void	get(long *power, int exp)
 		while (exp)
 		{
 			i = 1;
-			while (i < 50)
+			while (i < MAX_RANK)
 			{
 				power[i] *= 2;
-				power[i] += power[i - 1] / 10000;
-				power[i - 1] = power[i - 1] % 10000;
+				power[i] += power[i - 1] / 1000000000;
+				power[i - 1] = power[i - 1] % 1000000000;
 				i++;
 			}
 			exp--;
@@ -63,25 +63,25 @@ void	get(long *power, int exp)
 		while (exp)
 		{
 			i = 1;
-			while (i < 50)
+			while (i < MAX_RANK)
 			{
 				power[i] *= 5;
-				power[i] += power[i - 1] / 10000;
-				power[i - 1] = power[i - 1] % 10000;
+				power[i] += power[i - 1] / 1000000000;
+				power[i - 1] = power[i - 1] % 1000000000;
 				i++;
 			}
 			exp--;
 		}
 	}
-}
+}*/
 
-int		len_digit_str(long *rank)
+int		len_digit_str(ULL *rank)
 {
 	int		i;
 	int		k;
 	int		len;
 
-	i = 49;
+	i = MAX_RANK - 1;
 	len = 0;
 	while (!rank[i])
 		i--;
@@ -91,11 +91,11 @@ int		len_digit_str(long *rank)
 		len++;
 		k *= 10;
 	}
-	len += i * 4;
+	len += i * 9;
 	return (len);
 }
 
-char	*convert_to_str(long *rank)
+char	*convert_to_str(ULL *rank)
 {
 	char	*str;
 	char	*tmp_str;
@@ -107,17 +107,18 @@ char	*convert_to_str(long *rank)
 	str = (char *)malloc(sizeof(char) * (len + 2));
 	tmp_str = str;
 	str[len + 1] = 0;
-	*str++ = '0';
-	k = 1000;
-	i = len / 4;
-	while (rank[i] / k == 0)
+	*str = '0';
+	str++;
+	k = 100000000;
+	i = len / 9;
+	while (k && rank[i] / k == 0)
 		k /= 10;
 	if (!k)
 		i--;
 	while (i > 0)
 	{
 		if (!k)
-			k = 1000;
+			k = 100000000;
 		while (k)
 		{
 			*str = rank[i] / k + '0';
@@ -146,8 +147,8 @@ int		positive_exp(t_f *f)
 
 int		f_case(va_list arg_ptr, t_f *f)
 {
-	long				rank[50];
-	long				power[50];
+	ULL				rank[MAX_RANK];
+	ULL				power[MAX_RANK];
 	long double			ld;
 	union union_type	number;
 	int					exp;
@@ -161,32 +162,75 @@ int		f_case(va_list arg_ptr, t_f *f)
 	else
 		ld = (long double)va_arg(arg_ptr, double);
 	number.ld = ld;
-	f->number->sign = number.part.sign ? '-' : 0;
+	f->f_number->sign = number.part.sign ? '-' : 0;
+	/*if (number.part.sign)
+	{
+		if (f->flags->space)
+			f->f_number->sign = ' ';
+		if (f->flags->plus)
+			f->f_number->sign = '+';
+	}*/
 	get_fraction(rank, number.part.fraction);
 	exp = number.part.exponent - 16383 - 63;
 	get(power, exp);
 	mult(rank, power);
 	str = convert_to_str(rank);
+	char *tmp_str = str;
 	printf("%s\n", str);
-	if (exp < 0)
+	//printf("len = %zu\n", ft_strlen(str));
+	//printf("exp = %d\n", exp);
+	if (exp < 0 && -exp <= (int)ft_strlen(str))
 	{
 		i = ft_strlen(str) + exp;
 		len = ft_strlen(str) + exp + f->flags->precision;
 		rounding(str + len);
-		len = ft_max(f->flags->precision, -exp) + 2;
-		f->f_number->fract_part = (char*)malloc(sizeof(char) * len);
-		f->f_number->fract_part[0] = '.';
-		f->f_number->fract_part[len] = '\0';
-		f->f_number->fract_part++;
-		f->f_number->fract_part = ft_strcpy(f->f_number->fract_part, &str[i]);
-		i = ft_strlen(str) - ft_strlen(f->f_number->fract_part);
-		str[i] = 0;
-		f->f_number->fract_part--;
+		if (f->flags->precision)
+		{
+			len = f->flags->precision + 2;
+			f->f_number->fract_part = (char*)malloc(sizeof(char) * len);
+			f->f_number->fract_part[0] = '.';
+			f->f_number->fract_part[len] = '\0';
+			f->f_number->fract_part++;
+			f->f_number->fract_part = ft_strcpy(f->f_number->fract_part, &str[i]);
+			i = ft_strlen(str) - ft_strlen(f->f_number->fract_part);
+			str[i] = 0;
+			f->f_number->fract_part--;
+		}
 		if (*str == '0')
 			str++;
-		f->f_number->whole_part = ft_strdup(str);
+		if (*str == 0)
+			f->f_number->whole_part = ft_strdup("0");
+		else
+			f->f_number->whole_part = ft_strdup(str);
 	}
-	printf("%s\n", str);
-	printf("%s%s\n", f->f_number->whole_part, f->f_number->fract_part);
-	return (0);
+	else if (exp < 0 && -exp > (int)ft_strlen(str))
+	{
+		len = ft_strlen(str + 1);
+		i = -exp - len;
+		if (f->flags->precision < i)
+			f->f_number->fract_part = n_char('0', f->flags->precision, &len);
+		else {
+		rounding(str + 1 + f->flags->precision - i);
+		if (*str == '0')
+			str++;//i--;
+		else
+			i--;
+		
+		len = ft_strlen(str);
+		f->f_number->fract_part = (char*)malloc(sizeof(char) * (len + i + 2));
+		f->f_number->fract_part[0] = '.';
+		f->f_number->fract_part[len + i + 1] = '\0';
+		int tmp = 1;
+		while (tmp <= i)
+			f->f_number->fract_part[tmp++] = '0';
+		f->f_number->fract_part += tmp;
+		f->f_number->fract_part = ft_strcpy(f->f_number->fract_part, str);
+		f->f_number->fract_part -= tmp;
+		}
+		f->f_number->whole_part = ft_strdup("0");
+	}
+	len = go_to_format(f);
+	print_and_free_float_struct(f->f_number);
+	ft_memdel((void**)&tmp_str);
+	return (len);
 }

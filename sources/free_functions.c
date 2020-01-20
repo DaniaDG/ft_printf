@@ -37,11 +37,19 @@ void	free_int_struct(t_integer *number)
 	ft_memdel((void**)&(number->left));
 	ft_memdel((void**)&(number->ox));
 	ft_memdel((void**)&(number->zeros));
-	//if (number->digits - 1)
-	//	number->digits--;
 	ft_memdel((void**)&(number->digits));
 	ft_memdel((void**)&(number->right));
 	number->sign = 0;
+}
+
+void	free_float_struct(t_float *f_number)
+{
+	ft_memdel((void**)&(f_number->left));
+	ft_memdel((void**)&(f_number->whole_part));
+	ft_memdel((void**)&(f_number->fract_part));
+	ft_memdel((void**)&(f_number->zeros));
+	ft_memdel((void**)&(f_number->right));
+	f_number->sign = 0;
 }
 
 void	free_string_srtuct(t_string *string)

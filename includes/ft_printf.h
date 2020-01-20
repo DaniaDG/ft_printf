@@ -20,7 +20,8 @@
 # include <stdio.h>
 # include <math.h>
 
-
+# define MAX_RANK	1000
+# define ULL		unsigned long long
 
 typedef struct			s_flags
 {
@@ -121,6 +122,7 @@ void	print_and_free_float_struct(t_float *number);
 void	free_int_struct(t_integer *number);
 void	free_string_srtuct(t_string *string);
 void	free_char_srtuct(t_character *character);
+void	free_float_struct(t_float *f_number);
 //
 int		get_number(va_list arg_ptr, t_f *f);
 void	get_unsigned_number(va_list arg_ptr, t_f *f);
@@ -149,11 +151,13 @@ void	precision_case(t_f *f, int *len);
 void	only_width_case(t_f *f, int *len);
 
 int		multiply(va_list arg_ptr, t_f *f);
-void	mult(long *m1, long *m2);
+void	mult(ULL *m1, ULL *m2);
 void	rounding(char *str_ptr);
 void	test();
+int 	mult_test(ULL *m1, ULL *m2);
+void	get(ULL *power, int exp);
 
 void	di_only_width_case(t_f *f, int *len);
-
+int		go_to_format(t_f *f);
 
 #endif

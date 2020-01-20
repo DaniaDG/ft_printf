@@ -61,5 +61,9 @@ int		ft_printf(const char *format, ...)
 		ptr++;
 	}
 	va_end(arg_ptr);
+	ft_memdel((void**)&(f.number));
+	ft_memdel((void**)&(f.f_number));
+	ft_memdel((void**)&(f.string));
+	ft_memdel((void**)&(f.character));
 	return (res);
 }
