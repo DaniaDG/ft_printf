@@ -19,8 +19,9 @@
 
 int		main()
 {
-	ft_printf("%f\n", 0.001236456);
-	   printf("\n%.100f\n", 0.001236456);
-
+	////long double		ld = 0.123254684651216845641521574165419864160654165l;
+	//ft_printf("%.100Lf\n", ld);
+	  // printf("%.100Lf\n", ld);
+print_powers();
 	return (0);
 }

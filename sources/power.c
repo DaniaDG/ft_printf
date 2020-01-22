@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static int	g_array[3] = {1, 2, 3};
+//static int	g_array[3] = {1, 2, 3};
 
 static ULL	g_five[11][81] = {{5, -1}, {25, -1}, {625, -1}, {390625, -1},
 	{587890625, 152, -1},//4
@@ -74,11 +74,13 @@ static void	copy_array(ULL *src, ULL *dest)
 	int		i;
 
 	i = 0;
-	while (i < MAX_RANK)
+	while (i < MAX_RANK && dest[i] != (ULL)(-1))
 	{
 		src[i] = dest[i];
 		i++;
 	}
+	if (dest[i] == (ULL)(-1))
+		src[i] = dest[i];
 }
 
 void		mult(ULL *m1, ULL *m2)
@@ -97,6 +99,7 @@ void		mult(ULL *m1, ULL *m2)
 	while (m2[j] != (ULL)(-1))
 	{
 		i = 0;
+		tmp = 0;
 		while (m1[i] != (ULL)(-1))
 		{
 			result[i + j] += m1[i] * m2[j] + tmp;
@@ -104,6 +107,8 @@ void		mult(ULL *m1, ULL *m2)
 			result[i + j] %= 1000000000;
 			i++;
 		}
+		if (tmp)
+			result[i + j] += tmp;
 		j++;
 	}
 	/*while (m2[j] != -1)
@@ -114,8 +119,8 @@ void		mult(ULL *m1, ULL *m2)
 		{
 	
 			tmp = (unsigned long long)(m1[i] * m2[j] + rem);
-			result[i + j] += tmp % 1000000000;
-			rem = tmp / 1000000000;
+			result[i + j] = (result[i + j] + tmp) % 1000000000;
+			rem = (result[i + j] + tmp) / 1000000000;
 			i++;
 		}
 		if (rem)
@@ -158,17 +163,17 @@ void		get_five_power(ULL *power, int exp)
 int			print_powers(void)
 {
 	int		i;
-	int		j;
+	ULL		power[MAX_RANK];
 
+	fill_array_by_zero(power);
+	copy_array(power, g_five[10]);
+	mult(power, g_five[10]);
 	i = 0;
-	while (i < 10)
+	while (i < 200)
 	{
-		j = 0;
-		while (j < 41)
-			printf("%lld", g_five[i][j++]);
-		printf("\n");
+		printf("{%lld}, ", power[i]);
 		i++;
 	}
-	printf("%d", g_array[0]);
+	
 	return (0);
 }

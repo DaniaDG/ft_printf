@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	mult(ULL *m1, ULL *m2)
+/*void	mult(ULL *m1, ULL *m2)
 {
 	int		i;
 	int		k;
@@ -37,7 +37,7 @@ void	mult(ULL *m1, ULL *m2)
 	i = 0;
 	while (++i < MAX_RANK)
 		m1[i] = tmp[i];
-}
+}*/
 
 void	round_nine(char *str)
 {

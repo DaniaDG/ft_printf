@@ -46,7 +46,7 @@ int		len_digit_str(ULL *rank)
 
 	i = MAX_RANK - 1;
 	len = 0;
-	while (rank[i] <= 0)
+	while (!rank[i] || rank[i] == (ULL)(-1))
 		i--;
 	k = 1;
 	while (rank[i] / k)
@@ -78,7 +78,7 @@ char	*convert_to_str(ULL *rank)
 		k /= 10;
 	if (!k)
 		i--;
-	while (i > 0)
+	while (i >= 0)
 	{
 		if (!k)
 			k = 100000000;
@@ -117,7 +117,7 @@ int		f_case(va_list arg_ptr, t_f *f)
 	union union_type	number;
 	int					exp;
 	int					len = 0;
-//	char				*str;
+	char				*str;
 	int					i;
 
 	fill_array_by_zero(rank, power);
@@ -127,24 +127,24 @@ int		f_case(va_list arg_ptr, t_f *f)
 		ld = (long double)va_arg(arg_ptr, double);
 	number.ld = ld;
 	f->f_number->sign = number.part.sign ? '-' : 0;
-	/*if (number.part.sign)
+	if (number.part.sign)
 	{
 		if (f->flags->space)
 			f->f_number->sign = ' ';
 		if (f->flags->plus)
 			f->f_number->sign = '+';
-	}*/
+	}
 	get_fraction(rank, number.part.fraction);
 	exp = number.part.exponent - 16383 - 63;
-	printf("exp = %d\n", exp);
+	//printf("exp = %d\n", exp);
 	power[0] = 1;
 	power[1] = -1;
 	get_five_power(power, exp);
 	mult(rank, power);
-	//str = convert_to_str(rank);
+	str = convert_to_str(rank);
 	//printf("%s\n", str);
 
-	/*char *tmp_str = str;
+	char *tmp_str = str;
 	//printf("len = %zu\n", ft_strlen(str));
 	//printf("exp = %d\n", exp);
 	if (exp < 0 && -exp <= (int)ft_strlen(str))
@@ -199,10 +199,10 @@ int		f_case(va_list arg_ptr, t_f *f)
 	}
 	len = go_to_format(f);
 	print_and_free_float_struct(f->f_number);
-	ft_memdel((void**)&tmp_str);*/
-	i = 20;
-	while (i >= 0)
-		printf("%09lld", rank[i--]);
+	ft_memdel((void**)&tmp_str);
+	//i = 20;
+	//while (i >= 0)
+	//	printf("%09lld", rank[i--]);
 	return (len);
 }
 //123645599999999972266584448148657233810830680711795867919921875000000000000
