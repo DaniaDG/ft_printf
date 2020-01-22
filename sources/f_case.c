@@ -142,7 +142,7 @@ int		f_case(va_list arg_ptr, t_f *f)
 	get_five_power(power, exp);
 	mult(rank, power);
 	str = convert_to_str(rank);
-	//printf("%s\n", str);
+	printf("%s\n", str);
 
 	char *tmp_str = str;
 	//printf("len = %zu\n", ft_strlen(str));

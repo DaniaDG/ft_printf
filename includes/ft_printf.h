@@ -20,7 +20,7 @@
 # include <stdio.h>
 # include <math.h>
 
-# define MAX_RANK	1000
+# define MAX_RANK	10000
 # define ULL		unsigned long long
 
 typedef struct			s_flags
