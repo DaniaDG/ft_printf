@@ -151,7 +151,7 @@ void	precision_case(t_f *f, int *len);
 void	only_width_case(t_f *f, int *len);
 
 int		multiply(va_list arg_ptr, t_f *f);
-void	mult(ULL *m1, ULL *m2);
+//void	mult(ULL *m1, ULL *m2);
 void	rounding(char *str_ptr);
 void	test();
 int 	mult_test(ULL *m1, ULL *m2);
@@ -159,5 +159,8 @@ void	get(ULL *power, int exp);
 
 void	di_only_width_case(t_f *f, int *len);
 int		go_to_format(t_f *f);
+int		print_powers();
+void		get_five_power(ULL *power, int exp);
+void		mult(ULL *m1, ULL *m2);
 
 #endif

@@ -54,7 +54,9 @@ PRINTF_SOURCES_DIRECTORY = ./sources/
 PRINTF_SOURCES_LIST = ft_printf.c ft_print_int.c ft_print_string.c ft_itoa_base.c \
 ft_print_char.c ft_itoa_base_long.c  ft_itoa_base_unsigned.c init_struct.c \
 get_flags.c free_functions.c print_argument.c get_numbers.c other.c \
-di_case.c xp_case.c o_case.c u_case.c f_case.c multiply.c power.c   
+di_case.c xp_case.c o_case.c u_case.c power.c f_case.c
+
+#f_case.c multiply.c    
 
 PRINTF_SOURCES = $(addprefix $(PRINTF_SOURCES_DIRECTORY), $(PRINTF_SOURCES_LIST))
 
