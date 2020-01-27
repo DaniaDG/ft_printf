@@ -58,22 +58,38 @@ int		len_digit_str(ULL *rank)
 	return (len);
 }
 
-char	*convert_to_str(ULL *rank)
+char	*convert_to_str(ULL *rank, int exp)
 {
 	char	*str;
 	char	*tmp_str;
 	int		len;
+	int		len_fract;
 	int		i;
 	int		k;
 
 	len = len_digit_str(rank);
-	str = (char *)malloc(sizeof(char) * (len + 2));
+	len_fract = exp < 0 ? -exp : 0;
+	printf("len = %d\n", len);
+	printf("len_fract= %d\n", len_fract);
+	str = (char *)malloc(sizeof(char) * (ft_max(len, len_fract) + 2));
 	tmp_str = str;
-	str[len + 1] = 0;
+	//str[len + 1] = 0;
 	*str = '0';
 	str++;
 	k = 100000000;
 	i = len / 9;
+
+	if (exp < 0 && -exp - len > 0)
+	{
+		exp = -exp - len;
+		while (exp)
+		{
+			*str = '0';
+			exp--;
+			str++;
+		}
+	}
+
 	while (k && rank[i] / k == 0)
 		k /= 10;
 	if (!k)
@@ -92,6 +108,7 @@ char	*convert_to_str(ULL *rank)
 		}
 		i--;
 	}
+	*str = 0;
 	return (tmp_str);
 }
 
@@ -118,7 +135,7 @@ int		f_case(va_list arg_ptr, t_f *f)
 	int					exp;
 	int					len = 0;
 	char				*str;
-	int					i;
+	//int					i;
 
 	fill_array_by_zero(rank, power);
 	if (f->flags->lf)
@@ -141,13 +158,15 @@ int		f_case(va_list arg_ptr, t_f *f)
 	power[1] = -1;
 	get_five_power(power, exp);
 	mult(rank, power);
-	str = convert_to_str(rank);
+	str = convert_to_str(rank, exp);
 	printf("%s\n", str);
-
-	char *tmp_str = str;
+	//
+	rounding(str + f->flags->precision + 1);
+	printf("%s\n", str);
+	//char *tmp_str = str;
 	//printf("len = %zu\n", ft_strlen(str));
 	//printf("exp = %d\n", exp);
-	if (exp < 0 && -exp <= (int)ft_strlen(str))
+	/*if (exp < 0 && -exp <= (int)ft_strlen(str))
 	{
 		i = ft_strlen(str) + exp;
 		len = ft_strlen(str) + exp + f->flags->precision;
@@ -171,7 +190,7 @@ int		f_case(va_list arg_ptr, t_f *f)
 		else
 			f->f_number->whole_part = ft_strdup(str);
 	}
-	else if (exp < 0 && -exp > (int)ft_strlen(str))
+	else if (exp < 0 && -exp >= (int)ft_strlen(str))
 	{
 		len = ft_strlen(str + 1);
 		i = -exp - len;
@@ -202,7 +221,7 @@ int		f_case(va_list arg_ptr, t_f *f)
 	ft_memdel((void**)&tmp_str);
 	//i = 20;
 	//while (i >= 0)
-	//	printf("%09lld", rank[i--]);
+	//	printf("%09lld", rank[i--]);*/
 	return (len);
 }
 //123645599999999972266584448148657233810830680711795867919921875000000000000
