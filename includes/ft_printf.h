@@ -39,7 +39,7 @@ typedef struct			s_flags
 	int		l;
 	int		ll;
 	int		lf;
-	char	 conversion;
+	char	conversion;
 }						t_flags;
 
 typedef struct			s_integer
@@ -111,7 +111,7 @@ int		ft_printf(const char *format, ...);
 //
 void	init_f(t_f *f);
 int		get_flags(char *ptr, t_flags *flags);
-int		ft_print_int(va_list arg_ptr, t_f *f);
+int		ft_print_argument(va_list arg_ptr, t_f *f);
 int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
 //
 void	print_and_free_int_struct(t_integer *number);
@@ -152,6 +152,7 @@ void	only_width_case(t_f *f, int *len);
 
 void		multiply(ULL *rank, int exp);
 //void	mult(ULL *m1, ULL *m2);
+void	fill_array_by_zero(ULL *array);
 void	ft_round(char *str_ptr, int sign);
 void	rounding(char *str, int exp, t_f *f);
 void	test();
@@ -159,7 +160,6 @@ int 	mult_test(ULL *m1, ULL *m2);
 void	get(ULL *power, int exp);
 
 void	di_only_width_case(t_f *f, int *len);
-int		go_to_format(t_f *f);
 int		print_powers();
 void		get_five_power(ULL *power, int exp);
 void		mult(ULL *m1, ULL *m2);

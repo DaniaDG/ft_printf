@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "ft_printf.h"
-
 
 int		ft_print_string(va_list arg_ptr, t_f *f)
 {
@@ -27,7 +25,8 @@ int		ft_print_string(va_list arg_ptr, t_f *f)
 			len = 0;
 		else
 		{
-			f->string->str = ft_strsub(tmp, 0, ft_min(f->flags->precision, ft_strlen(tmp)));
+			f->string->str = ft_strsub(tmp, 0,
+							ft_min(f->flags->precision, ft_strlen(tmp)));
 			len = ft_strlen(f->string->str);
 		}
 	}

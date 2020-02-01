@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static char	rem_letter(int rem, int reg)
+static char		rem_letter(int rem, int reg)
 {
 	if (rem >= 10 && rem <= 15)
 	{
@@ -23,7 +23,7 @@ static char	rem_letter(int rem, int reg)
 	return (rem + '0');
 }
 
-static int		num_of_letters(unsigned long long value, int base)
+static int		num_of_letters(ULL value, int base)
 {
 	int i;
 
@@ -32,13 +32,13 @@ static int		num_of_letters(unsigned long long value, int base)
 		return (1);
 	while (value != 0)
 	{
-		value = (unsigned long long)(value / (unsigned long long)base);
+		value = (ULL)(value / (ULL)base);
 		i++;
 	}
 	return (i);
 }
 
-char	*ft_itoa_base_unsigned(unsigned long long value, int base, int reg)
+char			*ft_itoa_base_unsigned(ULL value, int base, int reg)
 {
 	char	*str;
 	int		len;
@@ -56,7 +56,7 @@ char	*ft_itoa_base_unsigned(unsigned long long value, int base, int reg)
 		while (value != 0)
 		{
 			str[len--] = rem_letter((value % base), reg);
-			value = (unsigned long long)(value / (unsigned long long)base);
+			value = (ULL)(value / (ULL)base);
 		}
 	}
 	return (str);

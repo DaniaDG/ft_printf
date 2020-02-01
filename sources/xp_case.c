@@ -46,7 +46,7 @@ static void	x_only_width_case(t_f *f, int *len)
 	}
 }
 
-int		x_case(va_list arg_ptr, t_f *f)
+int			x_case(va_list arg_ptr, t_f *f)
 {
 	int		len;
 
@@ -61,7 +61,7 @@ int		x_case(va_list arg_ptr, t_f *f)
 	return (len);
 }
 
-static void		get_adress(va_list arg_ptr, t_f *f)
+static void	get_adress(va_list arg_ptr, t_f *f)
 {
 	unsigned long long adress;
 

@@ -19,7 +19,6 @@ int		ft_printf(const char *format, ...)
 	t_f			f;
 	int			res = 0;
 
-	
 	va_start(arg_ptr, format);
 	init_f(&f);
 	ptr = (char *)format;
@@ -35,22 +34,10 @@ int		ft_printf(const char *format, ...)
 		else
 		{
 			ptr += get_flags(ptr + 1, f.flags);
-			if (!(f.flags->conversion = *ptr))
+			if (f.flags->conversion == '\0')
 				break ;
-			if (*ptr == 'd' || *ptr == 'i' || *ptr == 'u'|| *ptr == 'o' || *ptr == 'x' || *ptr == 'X')
-				res += ft_print_int(arg_ptr, &f);	
-			else if (*ptr == 's')
-				res += ft_print_string(arg_ptr, &f);
-			else if (*ptr == 'c' || *ptr == '%')
-				res += ft_print_char(arg_ptr, &f);
-			else if (*ptr == 'p')
-				res += p_case(arg_ptr, &f);
-			else if (*ptr == 'f')
-			{
-				if (!f.flags->precision && f.flags->conversion == 'f' && !f.flags->dot)
-					f.flags->precision = 6;
-				res += f_case(arg_ptr, &f);
-			}
+			if (ft_strchr("%cspdiouxXf", *ptr))
+				res += ft_print_argument(arg_ptr, &f);	
 			else
 			{
 				write(1, ptr, 1);

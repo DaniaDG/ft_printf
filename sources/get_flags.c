@@ -12,62 +12,71 @@
 
 #include "ft_printf.h"
 
-int		get_flags(char *ptr, t_flags *flags)
+static void		flags_check(char *ptr, t_flags *flags)
 {
-	int		i = 0;
+	if (*ptr == '0' && !flags->dot)
+		flags->zero = 1;
+	if (*ptr == '-')
+		flags->minus = 1;
+	if (*ptr == '+')
+		flags->plus = 1;
+	if (*ptr == ' ')
+		flags->space = 1;
+	if (*ptr == '.')
+		flags->dot = 1;
+	if (*ptr == '#')
+		flags->sharp = 1;
+}
 
+static void		size_check(char *ptr, t_flags *flags)
+{
+	if (*ptr == 'h')
+		flags->h = 1;
+	if (*ptr == 'h' && *(ptr - 1) == 'h')
+		flags->hh = 1;
+	if (*ptr == 'l')
+		flags->l = 1;
+	if (*ptr == 'l' && *(ptr - 1) == 'l')
+		flags->ll = 1;
+	if (*ptr == 'L')
+		flags->lf = 1;
+}
+
+static int		wp_check(char *ptr, t_flags *flags)
+{
+	int		i;
+
+	i = 0;
+	if (ptr[i] >= '1' && ptr[i] <= '9')
+	{
+		if (flags->dot)
+			flags->precision = ft_atoi(&ptr[i]);
+		else
+			flags->width = ft_atoi(&ptr[i]);
+		while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')
+			i++;
+		i--;
+	}
+	return (i);
+}
+
+int				get_flags(char *ptr, t_flags *flags)
+{
+	int		i;
+
+	i = 0;
 	if (!ptr[i])
 		return (0);
-	if (ft_strchr("%fcspdiouxX", ptr[i]))
+	while (ptr[i] && ft_strchr("Lhl0123456789 .+-#", ptr[i]))
 	{
-		if (ptr[i] == '%')
-			flags->percent = 1;
-		return (1);
-	}
-	while (ptr[i] && ft_strchr("Lhl0123456789 .+-#", ptr[i]))///check while ptr[i+1]
-	{
-		if (ptr[i] == '0' && !flags->dot)//&& flags->???
-			flags->zero = 1;
-		if (ptr[i] == '-')
-			flags->minus = 1;
-		if (ptr[i] == '+')
-			flags->plus = 1;
-		if (ptr[i] == ' ')
-			flags->space = 1;
-		if (ptr[i] == '.')
-			flags->dot = 1;
-		if (ptr[i] == '#')
-			flags->sharp = 1;
-		if (ptr[i] >= '1' && ptr[i] <= '9')
-		{
-			if (flags->dot)
-				flags->precision = ft_atoi(&ptr[i]);
-			else
-				flags->width = ft_atoi(&ptr[i]);
-			while (ptr[i] && ptr[i] >= '0' && ptr[i] <= '9')///check while ptr[i+1]
-				i++;
-			i--;
-		}
-		if (ptr[i] == 'h')
-		{
-			flags->h = 1;
-			if (ptr[i - 1] == 'h')
-				flags->hh = 1;
-		}
-		if (ptr[i] == 'l')
-		{
-			flags->l = 1;
-			if (ptr[i - 1] == 'l')
-				flags->ll = 1;
-		}
-		if (ptr[i] == 'L')
-			flags->lf = 1;
+		flags_check(&ptr[i], flags);
+		i += wp_check(&ptr[i], flags);
+		size_check(&ptr[i], flags);
 		i++;
-		if (ptr[i] == '%')
-		{
-			flags->percent = 1;
-			break ;
-		}
 	}
+	if (ft_strchr("%fcspdiouxX", ptr[i]))
+		flags->conversion = ptr[i];
+	if (!flags->precision && flags->conversion == 'f' && !flags->dot)
+		flags->precision = 6;
 	return (i + 1);
 }

@@ -45,7 +45,7 @@ static void	o_only_width_case(t_f *f, int *len)
 	}
 }
 
-int		o_case(va_list arg_ptr, t_f *f)
+int			o_case(va_list arg_ptr, t_f *f)
 {
 	int		len;
 

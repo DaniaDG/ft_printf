@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_int.c                                     :+:      :+:    :+:   */
+/*   ft_print_argument.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bsausage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,9 +12,8 @@
 
 #include "ft_printf.h"
 
-int		ft_print_int(va_list arg_ptr, t_f *f)
+int		ft_print_argument(va_list arg_ptr, t_f *f)
 {
-
 	if (f->flags->conversion == 'd' || f->flags->conversion == 'i')
 		return (di_case(arg_ptr, f));
 	if (f->flags->conversion == 'u')
@@ -23,5 +22,13 @@ int		ft_print_int(va_list arg_ptr, t_f *f)
 		return (x_case(arg_ptr, f));
 	if (f->flags->conversion == 'o')
 		return (o_case(arg_ptr, f));
+	if (f->flags->conversion == 'p')
+		return (p_case(arg_ptr, f));
+	if (f->flags->conversion == 'f')
+		return (f_case(arg_ptr, f));
+	if (f->flags->conversion == 's')
+		return (ft_print_string(arg_ptr, f));
+	if (f->flags->conversion == 'c' || f->flags->conversion == '%')
+		return (ft_print_char(arg_ptr, f));
 	return (0);
 }

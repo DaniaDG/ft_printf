@@ -12,10 +12,10 @@
 
 #include "ft_printf.h"
 
-int		get_number(va_list arg_ptr, t_f *f)
+int			get_number(va_list arg_ptr, t_f *f)
 {
-	long long	ll_arg;
-	
+	long long		ll_arg;
+
 	if (f->flags->ll)
 		ll_arg = va_arg(arg_ptr, long long);
 	else if (f->flags->l)
@@ -57,7 +57,7 @@ void		get_unsigned_number(va_list arg_ptr, t_f *f)
 
 void		get_hex_number(va_list arg_ptr, t_f *f)
 {
-	int	reg;
+	int						reg;
 	unsigned long long		ull_arg;
 
 	reg = f->flags->conversion == 'X' ? 1 : 0;

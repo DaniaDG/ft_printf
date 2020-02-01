@@ -20,9 +20,9 @@
 
 int		main()
 {
-	long double		ld = 45454.000039l;
-	ft_printf("%25.0Lf\n", ld);
-	   printf("%25.0Lf\n", ld);
+	long double		ld = 0;
+	ft_printf("%f\n", 573.924);
+	   printf("%f\n", 573.924);
 	//print_powers();
 	return (0);
 }
