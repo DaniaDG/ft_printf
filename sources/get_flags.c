@@ -30,14 +30,26 @@ static void		flags_check(char *ptr, t_flags *flags)
 
 static void		size_check(char *ptr, t_flags *flags)
 {
-	if (*ptr == 'h')
+	if (*ptr == 'h' && *(ptr - 1) != 'h')
+	{
 		flags->h = 1;
+		flags->hh = 0;
+	}
 	if (*ptr == 'h' && *(ptr - 1) == 'h')
+	{
+		flags->h = 0;
 		flags->hh = 1;
-	if (*ptr == 'l')
+	}
+	if (*ptr == 'l' && *(ptr - 1) != 'l')
+	{
 		flags->l = 1;
+		flags->ll = 0;
+	}
 	if (*ptr == 'l' && *(ptr - 1) == 'l')
+	{
+		flags->l = 0;
 		flags->ll = 1;
+	}
 	if (*ptr == 'L')
 		flags->lf = 1;
 }

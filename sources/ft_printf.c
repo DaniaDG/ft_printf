@@ -38,12 +38,7 @@ int		ft_printf(const char *format, ...)
 				break ;
 			if (ft_strchr("%cspdiouxXf", *ptr))
 				res += ft_print_argument(arg_ptr, &f);	
-			else
-			{
-				write(1, ptr, 1);
-				res++;
-				free_flags(f.flags);
-			}
+			free_flags(f.flags);
 		}
 		ptr++;
 	}
@@ -54,3 +49,21 @@ int		ft_printf(const char *format, ...)
 	ft_memdel((void**)&(f.character));
 	return (res);
 }
+
+
+/*
+int		print_format(char *ptr)
+{
+	char	*tmp;
+	int		res;
+
+	tmp = ptr;
+	res = 0;
+	while (*tmp && *tmp != '%')
+	{
+		tmp++;
+		res++;
+	}
+	write(1, ptr, res);
+	return (res);
+}*/

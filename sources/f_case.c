@@ -179,6 +179,7 @@ int		f_case(va_list arg_ptr, t_f *f)
 	f_width_case(f, &len);
 	print_and_free_int_struct(f->number);
 	free_flags(f->flags);
+	ft_memdel((void**)&str);
 	return (len);
 }
 

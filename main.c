@@ -21,8 +21,18 @@
 int		main()
 {
 	long double		ld = 0;
-	ft_printf("%f\n", 573.924);
-	   printf("%f\n", 573.924);
+	int				i;
+
+	i = ft_printf("\\!/%2.2hhd\\!/", 1163429476);
+	printf("\ni = %d\n", i);
+	   i = printf("\\!/%2.2hhd\\!/", 1163429476);
+	printf("\ni = %d\n", i);
+
+	i = ft_printf("42%2hhd42", 1584607392);
+	printf("\ni = %d\n", i);
+	   i = printf("%.*f|%2147483649f", -3999999000, 1.0, 1.0);
+	printf("\ni = %d\n", i);
+
 	//print_powers();
 	return (0);
 }
