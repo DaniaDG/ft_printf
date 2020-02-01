@@ -150,9 +150,10 @@ void	print_and_free_int_struct(t_integer *number);
 void	precision_case(t_f *f, int *len);
 void	only_width_case(t_f *f, int *len);
 
-int		multiply(va_list arg_ptr, t_f *f);
+void		multiply(ULL *rank, int exp);
 //void	mult(ULL *m1, ULL *m2);
-void	rounding(char *str_ptr);
+void	ft_round(char *str_ptr);
+void	rounding(char *str, int exp, t_f *f);
 void	test();
 int 	mult_test(ULL *m1, ULL *m2);
 void	get(ULL *power, int exp);
@@ -162,5 +163,7 @@ int		go_to_format(t_f *f);
 int		print_powers();
 void		get_five_power(ULL *power, int exp);
 void		mult(ULL *m1, ULL *m2);
+
+void	put_dot(char *str, int exp, t_f *f);
 
 #endif

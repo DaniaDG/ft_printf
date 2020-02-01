@@ -54,7 +54,7 @@ void	round_nine(char *str)
 	}
 }
 
-void	rounding(char *str_ptr)
+void	ft_round(char *str_ptr)
 {
 	char	*str;
 	str = str_ptr;
@@ -68,34 +68,82 @@ void	rounding(char *str_ptr)
 	}
 }
 
-/*void	test()
+void	rounding(char *str, int exp, t_f *f)
 {
-	ULL	m1[MAX_RANK];
-	ULL	m2[MAX_RANK];
-	int		i = -1;
-	unsigned long long a = 123456789123456789;
-	unsigned long long b = 23652365236523;
+	int		len;
 
-	while (++i < MAX_RANK)
+	if (exp < 0)
 	{
-		m1[i] = 0;
-		m2[i] = 0;
+		exp *= -1;
+		len = ft_strlen(str);
+		if (len - 1 == exp)
+			ft_round(str + f->flags->precision + 1);
+		if (len - 1 > exp)
+			ft_round(str + len - exp + f->flags->precision);
 	}
-	i = 1;
-	while (a)
-	{
-		m1[i++] = a % 1000000000;
-		a = a / 1000000000;
-	}
-	i = 1;
-	while (b)
-	{
-		m2[i++] = b % 1000000000;
-		b = b / 1000000000;
-	}
-	mult(m1, m2);
-	i = 10;
-	while (i > 0)
-		ft_printf("04ld", m1[i]);
 }
-*/
+
+void	data_cpy(char *res, char *str, int exp, int fract_len)
+{
+	int		whole_len;
+	int		i = 0;
+	int		k = 0;
+
+	i = 0;
+	k = str[k] == '0' ? 1 : 0;
+	if (exp >= 0)
+		whole_len = ft_strlen(&str[k]);
+	else
+		whole_len = ft_strlen(&str[k]) - ft_min(fract_len, -exp);
+	if (!whole_len)
+		res[i++] = '0';
+	while (whole_len)
+	{
+		res[i++] = str[k++];
+		whole_len--;
+	}
+	res[i++] = '.';
+	while (fract_len && str[k])
+	{
+		res[i++] = str[k++];
+		fract_len--;
+	}
+	while (fract_len)
+	{
+		res[i++] = '0';
+		fract_len--;
+	}
+	res[i] = 0;
+}
+
+void	put_dot(char *str, int exp, t_f *f)
+{
+	int		len;
+	int		fract_len;
+	char	*res;
+
+	len = *str == '0' ? ft_strlen(str + 1) : ft_strlen (str);
+	fract_len = f->flags->precision;
+	if (exp < 0 && fract_len)
+	{
+		//exp *= -1;
+		if (fract_len <= -exp)
+		{
+			len += len == fract_len ? 1 : 0;
+			res = (char*)malloc(sizeof(char) * (len + 2));
+			//res[len + 1] = 0;
+		}
+		else
+		{
+			res = (char*)malloc(sizeof(char) * (len + fract_len + exp + 2));
+			//res[len + fract_len + exp + 1] = 0;
+		}
+	}
+	if (exp > 0 && fract_len)
+	{
+		res = (char*)malloc(sizeof(char) * (len + fract_len + 2));
+		//res[len + fract_len + 1] = 0;
+	}
+	data_cpy(res, str, exp, fract_len);
+	printf("RES = %s\n", res);
+}

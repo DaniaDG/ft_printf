@@ -1144,7 +1144,7 @@ void		mult(ULL *m1, ULL *m2)
 }
 
 
-void		get_five_power(ULL *power, int exp)
+void		multiply(ULL *rank, int exp)
 {
 	int		i;
 
@@ -1155,7 +1155,7 @@ void		get_five_power(ULL *power, int exp)
 		while (exp)
 		{
 			if (exp & 1)
-				mult(power, g_five[i]);
+				mult(rank, g_five[i]);
 			exp = exp >> 1;
 			i++;
 		}
@@ -1165,7 +1165,7 @@ void		get_five_power(ULL *power, int exp)
 		while (exp)
 		{
 			if (exp & 1)
-				mult(power, g_two[i]);
+				mult(rank, g_two[i]);
 			exp = exp >> 1;
 			i++;
 		}

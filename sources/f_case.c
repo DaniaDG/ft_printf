@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	fill_array_by_zero(ULL *rank, ULL *power)
+void	fill_array_by_zero(ULL *rank)
 {
 	int		i;
 
@@ -20,7 +20,6 @@ void	fill_array_by_zero(ULL *rank, ULL *power)
 	while (i < MAX_RANK)
 	{
 		rank[i] = 0;
-		power[i] = 0;
 		i++;
 	}
 }
@@ -128,21 +127,19 @@ int		positive_exp(t_f *f)
 
 int		f_case(va_list arg_ptr, t_f *f)
 {
-	ULL				rank[MAX_RANK];
-	ULL				power[MAX_RANK];
-	long double			ld;
+	ULL					rank[MAX_RANK];
 	union union_type	number;
 	int					exp;
 	int					len = 0;
 	char				*str;
 	//int					i;
 
-	fill_array_by_zero(rank, power);
+	fill_array_by_zero(rank);
 	if (f->flags->lf)
-		ld = va_arg(arg_ptr, long double);
+		number.ld = va_arg(arg_ptr, long double);
 	else
-		ld = (long double)va_arg(arg_ptr, double);
-	number.ld = ld;
+		number.ld = (long double)va_arg(arg_ptr, double);
+	//
 	f->f_number->sign = number.part.sign ? '-' : 0;
 	if (number.part.sign)
 	{
@@ -153,16 +150,15 @@ int		f_case(va_list arg_ptr, t_f *f)
 	}
 	get_fraction(rank, number.part.fraction);
 	exp = number.part.exponent - 16383 - 63;
-	//printf("exp = %d\n", exp);
-	power[0] = 1;
-	power[1] = -1;
-	get_five_power(power, exp);
-	mult(rank, power);
+	printf("exp = %d\n", exp);
+	multiply(rank, exp);
 	str = convert_to_str(rank, exp);
 	printf("%s\n", str);
 	//
-	rounding(str + f->flags->precision + 1);
+	rounding(str, exp, f);
+	put_dot(str, exp, f);
 	printf("%s\n", str);
+
 	//char *tmp_str = str;
 	//printf("len = %zu\n", ft_strlen(str));
 	//printf("exp = %d\n", exp);
