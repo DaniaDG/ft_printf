@@ -3,3 +3,4 @@ gcc -g main.c libftprintf.a -I includes -I libft/includes && ./a.out
 
 
 9 999 9.9 900 004 550
+

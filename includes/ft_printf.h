@@ -152,7 +152,7 @@ void	only_width_case(t_f *f, int *len);
 
 void		multiply(ULL *rank, int exp);
 //void	mult(ULL *m1, ULL *m2);
-void	ft_round(char *str_ptr);
+void	ft_round(char *str_ptr, int sign);
 void	rounding(char *str, int exp, t_f *f);
 void	test();
 int 	mult_test(ULL *m1, ULL *m2);

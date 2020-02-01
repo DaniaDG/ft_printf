@@ -26,7 +26,7 @@ int		get_flags(char *ptr, t_flags *flags)
 	}
 	while (ptr[i] && ft_strchr("Lhl0123456789 .+-#", ptr[i]))///check while ptr[i+1]
 	{
-		if (ptr[i] == '0')//&& flags->???
+		if (ptr[i] == '0' && !flags->dot)//&& flags->???
 			flags->zero = 1;
 		if (ptr[i] == '-')
 			flags->minus = 1;

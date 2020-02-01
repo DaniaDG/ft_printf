@@ -68,8 +68,8 @@ char	*convert_to_str(ULL *rank, int exp)
 
 	len = len_digit_str(rank);
 	len_fract = exp < 0 ? -exp : 0;
-	printf("len = %d\n", len);
-	printf("len_fract= %d\n", len_fract);
+	//printf("len = %d\n", len);
+	//printf("len_fract= %d\n", len_fract);
 	str = (char *)malloc(sizeof(char) * (ft_max(len, len_fract) + 2));
 	tmp_str = str;
 	//str[len + 1] = 0;
@@ -111,6 +111,20 @@ char	*convert_to_str(ULL *rank, int exp)
 	return (tmp_str);
 }
 
+void	f_width_case(t_f *f, int *len)
+{
+	*len += f->number->sign ? 1 : 0;
+	if (f->flags->minus)
+		f->number->right = n_char(' ', f->flags->width - *len, len);
+	else
+	{
+		if (f->flags->zero)
+			f->number->zeros = n_char('0', f->flags->width - *len, len);
+		else
+			f->number->left = n_char(' ', f->flags->width - *len, len);
+	}
+}
+
 int		positive_exp(t_f *f)
 {
 	int		len;
@@ -140,87 +154,36 @@ int		f_case(va_list arg_ptr, t_f *f)
 	else
 		number.ld = (long double)va_arg(arg_ptr, double);
 	//
-	f->f_number->sign = number.part.sign ? '-' : 0;
-	if (number.part.sign)
+	f->number->sign = number.part.sign ? '-' : 0;
+	if (!number.part.sign)
 	{
 		if (f->flags->space)
-			f->f_number->sign = ' ';
+			f->number->sign = ' ';
 		if (f->flags->plus)
-			f->f_number->sign = '+';
+			f->number->sign = '+';
 	}
 	get_fraction(rank, number.part.fraction);
 	exp = number.part.exponent - 16383 - 63;
-	printf("exp = %d\n", exp);
+	//printf("exp = %d\n", exp);
 	multiply(rank, exp);
 	str = convert_to_str(rank, exp);
-	printf("%s\n", str);
+	//printf("%s\n", str);
 	//
 	rounding(str, exp, f);
-	put_dot(str, exp, f);
-	printf("%s\n", str);
+	//printf("%s\n", str);
+	if (*str == '0' && ft_strlen(str) == 1)
+	{
 
-	//char *tmp_str = str;
-	//printf("len = %zu\n", ft_strlen(str));
-	//printf("exp = %d\n", exp);
-	/*if (exp < 0 && -exp <= (int)ft_strlen(str))
-	{
-		i = ft_strlen(str) + exp;
-		len = ft_strlen(str) + exp + f->flags->precision;
-		rounding(str + len);
-		if (f->flags->precision)
-		{
-			len = f->flags->precision + 2;
-			f->f_number->fract_part = (char*)malloc(sizeof(char) * len);
-			f->f_number->fract_part[0] = '.';
-			f->f_number->fract_part[len] = '\0';
-			f->f_number->fract_part++;
-			f->f_number->fract_part = ft_strcpy(f->f_number->fract_part, &str[i]);
-			i = ft_strlen(str) - ft_strlen(f->f_number->fract_part);
-			str[i] = 0;
-			f->f_number->fract_part--;
-		}
-		if (*str == '0')
-			str++;
-		if (*str == 0)
-			f->f_number->whole_part = ft_strdup("0");
-		else
-			f->f_number->whole_part = ft_strdup(str);
 	}
-	else if (exp < 0 && -exp >= (int)ft_strlen(str))
-	{
-		len = ft_strlen(str + 1);
-		i = -exp - len;
-		if (f->flags->precision < i)
-			f->f_number->fract_part = n_char('0', f->flags->precision, &len);
-		else {
-		rounding(str + 1 + f->flags->precision - i);
-		if (*str == '0')
-			str++;//i--;
-		else
-			i--;
-		
-		len = ft_strlen(str);
-		f->f_number->fract_part = (char*)malloc(sizeof(char) * (len + i + 2));
-		f->f_number->fract_part[0] = '.';
-		f->f_number->fract_part[len + i + 1] = '\0';
-		int tmp = 1;
-		while (tmp <= i)
-			f->f_number->fract_part[tmp++] = '0';
-		f->f_number->fract_part += tmp;
-		f->f_number->fract_part = ft_strcpy(f->f_number->fract_part, str);
-		f->f_number->fract_part -= tmp;
-		}
-		f->f_number->whole_part = ft_strdup("0");
-	}
-	len = go_to_format(f);
-	print_and_free_float_struct(f->f_number);
-	ft_memdel((void**)&tmp_str);
-	//i = 20;
-	//while (i >= 0)
-	//	printf("%09lld", rank[i--]);*/
+	
+	put_dot(str, exp, f);
+	//printf("%s\n", f->number->digits);
+
+	len = ft_strlen(f->number->digits);
+	f_width_case(f, &len);
+	print_and_free_int_struct(f->number);
+	free_flags(f->flags);
+
 	return (len);
 }
-//123645599999999972266584448148657233810830680711795867919921875000000000000
-//123645599999999992665844494865723390830680727958679199218750000000000000000
-//00012364557999999995266584450486572338083068068795867924921875005452564239
-//00012364559999999999266584449486572339083068072795867919921875000000000000000000000000000000000000000
+
