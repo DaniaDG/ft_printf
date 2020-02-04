@@ -120,7 +120,7 @@ void	f_width_case(t_f *f, int *len)
 	}
 }
 
-char	*check_special_numbers(long double number, t_f *f)
+int		check_special_numbers(long double number, t_f *f)
 {
 	char	*str;
 	int		bla;
@@ -130,11 +130,42 @@ char	*check_special_numbers(long double number, t_f *f)
 	if (number == 0)
 	{
 		if (f->flags->precision)
-			str = n_char('0', f->flags->precision + 2, &bla);
+		{
+			f->number->digits = n_char('0', f->flags->precision + 2, &bla);
+			f->number->digits[1] = '.';
+		}
+		else if (f->flags->sharp)
+			f->number->digits = ft_strdup("0.");
 		else
-			str = ft_strdup("0");
+			f->number->digits = ft_strdup("0");
+		return (1);
 	}
-	return (str);
+	else if (number != number)
+	{
+		f->number->digits = ft_strdup("nan");
+		f->number->sign = 0;
+		return (1);
+	}
+	else if (number == HUGE_VALF || number == -HUGE_VALF)
+	{
+		f->number->digits = ft_strdup("inf");
+		return (1);
+	}
+	return (0);
+}
+
+int		print_nan(t_f *f)
+{
+	int		len;
+
+	len = f->number->sign ? 4 : 3;
+	if (f->flags->minus)
+		f->number->right = n_char(' ', f->flags->width - len, &len);
+	else
+		f->number->left = n_char(' ', f->flags->width - len, &len);
+	print_and_free_int_struct(f->number);
+	free_flags(f->flags);
+	return (len);
 }
 
 int		f_case(va_list arg_ptr, t_f *f)
@@ -146,7 +177,7 @@ int		f_case(va_list arg_ptr, t_f *f)
 	char				*str;
 
 	fill_array_by_zero(rank);
-	if (f->flags->lf)
+	if (f->flags->size == LD)
 		number.ld = va_arg(arg_ptr, long double);
 	else
 		number.ld = (long double)va_arg(arg_ptr, double);
@@ -159,22 +190,25 @@ int		f_case(va_list arg_ptr, t_f *f)
 			f->number->sign = '+';
 	}
 	exp = number.part.exponent - 16383 - 63;
-	if (!(str = check_special_numbers(number.ld, f)))
+	if (!(check_special_numbers(number.ld, f)))
 	{
 		get_fraction(rank, number.part.fraction);
 		multiply(rank, exp);
 		str = convert_to_str(rank, exp);
+		//printf("str = %s\n", str);
 		rounding(str, exp, f);
-	}
-	if (*str == '0' && ft_strlen(str) == 1)
-	{
-		if (f->flags->sharp && !f->flags->precision)
-			f->number->digits = ft_strdup("0.");
+		if (*str == '0' && ft_strlen(str) == 1)
+		{
+			if (f->flags->sharp && !f->flags->precision)
+				f->number->digits = ft_strdup("0.");
+			else
+				f->number->digits = ft_strdup("0");
+		}
 		else
-			f->number->digits = ft_strdup("0");
+			put_dot(str, exp, f);
 	}
-	else
-		put_dot(str, exp, f);
+	if (f->number->digits[0] == 'n' || f->number->digits[0] == 'i')
+		return (print_nan(f));
 	len = ft_strlen(f->number->digits);
 	f_width_case(f, &len);
 	print_and_free_int_struct(f->number);

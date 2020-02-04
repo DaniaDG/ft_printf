@@ -57,12 +57,15 @@ void	print_and_free_string_struct(t_string *string)
 	free_string_srtuct(string);
 }
 
-void	print_and_free_char_struct(t_character *character)
+void	print_and_free_char_struct(t_f *f)
 {
-	if (character->left)
-		write(1, character->left, ft_strlen(character->left));
-	write(1, &(character->c), 1);
-	if (character->right)
-		write(1, character->right, ft_strlen(character->right));
-	free_char_srtuct(character);
+	if (f->character->left)
+		write(1, f->character->left, ft_strlen(f->character->left));
+	if (f->flags->size == L)
+		ft_putwchar(f->character->wc);
+	else
+		write(1, &(f->character->c), 1);
+	if (f->character->right)
+		write(1, f->character->right, ft_strlen(f->character->right));
+	free_char_srtuct(f->character);
 }

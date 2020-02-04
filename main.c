@@ -14,24 +14,31 @@
 #include "ft_printf.h"
 #include <limits.h>
 #include <float.h>
+#include "libft.h"
 
 #include "ft_printf.h"
+
+#define GREEN	"\033[32m"
+
+char happy[] = { 0xe2, 0x98, 0xba };  /* U+263A */
 
 
 int		main()
 {
-	long double		ld = 0;
+	long double		ld = 2.57756565543437547l;
 	int				i;
+	int				n = 125;
+	wchar_t			c = 0x00000439;
 
-	i = ft_printf("\\!/%2.2hhd\\!/", 1163429476);
+	
+	
+	i = ft_printf(">------------<%lc>------------<", c);
 	printf("\ni = %d\n", i);
-	   i = printf("\\!/%2.2hhd\\!/", 1163429476);
+	   i = printf(">------------<%lc>------------<", c);
 	printf("\ni = %d\n", i);
-
-	i = ft_printf("42%2hhd42", 1584607392);
-	printf("\ni = %d\n", i);
-	   i = printf("%.*f|%2147483649f", -3999999000, 1.0, 1.0);
-	printf("\ni = %d\n", i);
+	//ft_putwchar(c);
+	//printf("%zu\n", sizeof(wchar_t));
+	//ft_printf("\033[32m%s\nkhlkefkhjgkhjdkgjhskdgjhkjgdkh", "HELLO");☺
 
 	//print_powers();
 	return (0);

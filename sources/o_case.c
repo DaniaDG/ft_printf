@@ -49,7 +49,7 @@ int			o_case(va_list arg_ptr, t_f *f)
 {
 	int		len;
 
-	get_oct_number(arg_ptr, f);
+	get_unsigned_number(arg_ptr, f, 8);
 	len = ft_strlen(f->number->digits);
 	if (f->flags->dot)
 		o_precision_case(f, &len);

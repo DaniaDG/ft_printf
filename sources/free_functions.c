@@ -28,6 +28,8 @@ void	free_flags(t_flags *flags)
 	flags->l = 0;
 	flags->ll = 0;
 	flags->lf = 0;
+	flags->size = 0;
+	flags->asterisk = 0;
 	flags->conversion = 0;
 }
 
@@ -63,4 +65,5 @@ void	free_char_srtuct(t_character *character)
 	ft_memdel((void**)&character->left);
 	ft_memdel((void**)&character->right);
 	character->c = 0;
+	character->wc = 0;
 }

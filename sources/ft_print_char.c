@@ -17,8 +17,10 @@ int		ft_print_char(va_list arg_ptr, t_f *f)
 	int				len;
 
 	len = 1;
-	if (f->flags->conversion == '%' || !f->flags->conversion)
-		f->character->c = f->flags->conversion;
+	if (f->flags->conversion == '%')
+		f->character->c = '%';
+	else if (f->flags->size == L)
+		f->character->wc = (wchar_t)va_arg(arg_ptr, wint_t);
 	else
 		f->character->c = (char)va_arg(arg_ptr, int);
 	if (f->flags->minus)
@@ -27,7 +29,7 @@ int		ft_print_char(va_list arg_ptr, t_f *f)
 		f->character->left = n_char('0', f->flags->width - 1, &len);
 	else
 		f->character->left = n_char(' ', f->flags->width - 1, &len);
-	print_and_free_char_struct(f->character);
+	print_and_free_char_struct(f);
 	free_flags(f->flags);
 	return (len);
 }

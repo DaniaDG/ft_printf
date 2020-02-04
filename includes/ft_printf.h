@@ -19,9 +19,21 @@
 # include "libft.h"
 # include <stdio.h>
 # include <math.h>
+# include <stddef.h>
+# include <wchar.h>
+# include <limits.h>
 
 # define MAX_RANK	10000
 # define ULL		unsigned long long
+
+# define	HH		1
+# define	H		2
+# define	L		4
+# define	LL		8
+# define	LD		16
+# define	Z		32
+# define	J		64
+# define	T		128
 
 typedef struct			s_flags
 {
@@ -39,6 +51,8 @@ typedef struct			s_flags
 	int		l;
 	int		ll;
 	int		lf;
+	int		size;
+	int		asterisk;
 	char	conversion;
 }						t_flags;
 
@@ -73,6 +87,7 @@ typedef struct			s_character
 {
 	char	*left;
 	char	c;
+	wchar_t	wc;
 	char	*right;
 }						t_character;
 
@@ -110,13 +125,13 @@ typedef enum
 int		ft_printf(const char *format, ...);
 //
 void	init_f(t_f *f);
-int		get_flags(char *ptr, t_flags *flags);
+int		get_flags(char *ptr, t_flags *flags, va_list arg_ptr);
 int		ft_print_argument(va_list arg_ptr, t_f *f);
 int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
 //
 void	print_and_free_int_struct(t_integer *number);
 void	print_and_free_string_struct(t_string *string);
-void	print_and_free_char_struct(t_character *character);
+void	print_and_free_char_struct(t_f *f);
 void	print_and_free_float_struct(t_float *number);
 
 void	free_int_struct(t_integer *number);
@@ -125,13 +140,15 @@ void	free_char_srtuct(t_character *character);
 void	free_float_struct(t_float *f_number);
 //
 int		get_number(va_list arg_ptr, t_f *f);
-void	get_unsigned_number(va_list arg_ptr, t_f *f);
+void	get_unsigned_number(va_list arg_ptr, t_f *f, int base);
 void	get_hex_number(va_list arg_ptr, t_f *f);
 void	get_oct_number(va_list arg_ptr, t_f *f);
+void	get_bin_number(va_list arg_ptr, t_f *f);
 //
 int		di_case(va_list arg_ptr, t_f *f);
 int		x_case(va_list arg_ptr, t_f *f);
 int		o_case(va_list arg_ptr, t_f *f);
+int		b_case(va_list arg_ptr, t_f *f);
 int		u_case(va_list arg_ptr, t_f *f);
 int		p_case(va_list arg_ptr, t_f *f);
 int		f_case(va_list arg_ptr, t_f *f);
@@ -165,5 +182,6 @@ void		get_five_power(ULL *power, int exp);
 void		mult(ULL *m1, ULL *m2);
 
 void	put_dot(char *str, int exp, t_f *f);
+int		test_prinf(const char *format);
 
 #endif

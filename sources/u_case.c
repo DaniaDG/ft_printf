@@ -40,7 +40,7 @@ int			u_case(va_list arg_ptr, t_f *f)
 {
 	int		len;
 
-	get_unsigned_number(arg_ptr, f);
+	get_unsigned_number(arg_ptr, f, 10);
 	len = ft_strlen(f->number->digits);
 	if (f->flags->dot)
 		u_precision_case(f, &len);

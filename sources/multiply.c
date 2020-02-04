@@ -34,8 +34,9 @@ int		check_zeros(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i++] != 0)
+		if (str[i] != '0')
 			return (1);
+		i++;
 	}
 	return (0);
 }
@@ -47,7 +48,7 @@ void	ft_round(char *str_ptr, int sign)
 	str = str_ptr;
 	if (*str >= '0' && *str < '5')
 		*str = '\0';
-	else if ((*str > '5' && *str <= '9') || (*str == '5' && check_zeros(str)))
+	else if ((*str > '5' && *str <= '9') || (*str == '5' && check_zeros(str + 1)))
 	{
 		*str = '\0';
 		str--;
@@ -96,7 +97,7 @@ void	data_cpy(char *res, char *str, int exp, int f_len)
 		res[i++] = str[k++];
 		w_len--;
 	}
-	res[i++] = '.';
+	res[i++] = '.';/////////////////CHANGE TO ',' TO PASS UNIT TEST
 	while (f_len && str[k])
 	{
 		res[i++] = str[k++];

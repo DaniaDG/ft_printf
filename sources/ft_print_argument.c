@@ -22,6 +22,8 @@ int		ft_print_argument(va_list arg_ptr, t_f *f)
 		return (x_case(arg_ptr, f));
 	if (f->flags->conversion == 'o')
 		return (o_case(arg_ptr, f));
+	if (f->flags->conversion == 'b')
+		return (b_case(arg_ptr, f));
 	if (f->flags->conversion == 'p')
 		return (p_case(arg_ptr, f));
 	if (f->flags->conversion == 'f')
