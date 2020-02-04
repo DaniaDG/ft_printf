@@ -12,47 +12,38 @@
 
 #include "libft.h"
 
-void	ft_putwchar(wchar_t c)
+int		ft_putwchar(wchar_t c)
 {
-	/*unsigned int i;
+	unsigned int i;
 	char	t[4] = { 0 };
 
 	i = 0;
-	if (c < 0x8000)
+	if (c < 0x80)
 	{
-		t[0] = (char) ((c >> 6) | 0xc0);
+		t[0] = (char) (c & 0x7f);
+		i = 1;
+	}
+	else if (c < 0x800)
+	{
+		t[0] = (char) (((c >> 6) & 0x1f) | 0xc0);
 		t[1] = (char) ((c & 0x3f) | 0x80);
 		i = 2;
 	}
-	else if (c < 0x80000)
+	else if (c < 0x10000)
 	{
-		t[0] = (char) ((c >> 12) | 0xc0);
+		t[0] = (char) (((c >> 12) & 0xf) | 0xe0);
 		t[1] = (char) (((c >> 6 & 0x3f)) | 0x80);
 		t[2] = (char) ((c & 0x3f) | 0x80);
 		i = 3;
 	}
 	else
 	{
-		t[0] = (char) ((c >> 18) | 0xc0);
+		t[0] = (char) (((c >> 18) & 0x7) | 0xf0);
 		t[1] = (char) (((c >> 12) & 0x3f) | 0x80);
 		t[2] = (char) (((c >> 6) & 0x3f) | 0x80);
 		t[3] = (char) ((c & 0x3f) | 0x80);
 		i = 4;
 	}
-	write(1, t, i);*/
-
-
-	t_unicode		character;
-	char			tmp[4];
-	int				i;
-
-	i = 0;
-	character.c = c;
-	
-	while (i < 4)
-	{
-		tmp[3 - i] = character.part[i];
-		i++;
+	write(1, t, i);
+	return (i);
 	}
-	write(1, tmp, 4);
-}

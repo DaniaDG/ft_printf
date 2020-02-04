@@ -25,15 +25,9 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-typedef union		s_unicode
-{
-	wchar_t		c;
-	char		part[4];
-}					t_unicode;
-
 void				ft_putchar(char c);
 void				ft_putchar_fd(char c, int fd);
-void				ft_putwchar(wchar_t c);
+int					ft_putwchar(wchar_t c);
 void				ft_putstr(char const *s);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl(char const *s);

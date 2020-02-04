@@ -29,7 +29,7 @@ int		ft_print_char(va_list arg_ptr, t_f *f)
 		f->character->left = n_char('0', f->flags->width - 1, &len);
 	else
 		f->character->left = n_char(' ', f->flags->width - 1, &len);
-	print_and_free_char_struct(f);
+	print_and_free_char_struct(f, &len);
 	free_flags(f->flags);
 	return (len);
 }

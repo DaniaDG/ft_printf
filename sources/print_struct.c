@@ -57,12 +57,12 @@ void	print_and_free_string_struct(t_string *string)
 	free_string_srtuct(string);
 }
 
-void	print_and_free_char_struct(t_f *f)
+void	print_and_free_char_struct(t_f *f, int *len)
 {
 	if (f->character->left)
 		write(1, f->character->left, ft_strlen(f->character->left));
 	if (f->flags->size == L)
-		ft_putwchar(f->character->wc);
+		*len += ft_putwchar(f->character->wc) - 1;
 	else
 		write(1, &(f->character->c), 1);
 	if (f->character->right)

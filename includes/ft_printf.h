@@ -131,7 +131,7 @@ int		ft_print_int_unsigned(va_list arg_ptr, t_flags *flags);
 //
 void	print_and_free_int_struct(t_integer *number);
 void	print_and_free_string_struct(t_string *string);
-void	print_and_free_char_struct(t_f *f);
+void	print_and_free_char_struct(t_f *f, int *len);
 void	print_and_free_float_struct(t_float *number);
 
 void	free_int_struct(t_integer *number);
