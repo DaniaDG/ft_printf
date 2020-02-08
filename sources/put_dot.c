@@ -27,7 +27,7 @@ void	data_cpy(char *res, char *str, int exp, int f_len)
 		res[i++] = str[k++];
 		w_len--;
 	}
-	res[i++] = '.';/////////////////CHANGE TO ',' TO PASS UNIT TEST
+	res[i++] = '.';
 	while (f_len && str[k])
 	{
 		res[i++] = str[k++];

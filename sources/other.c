@@ -39,11 +39,12 @@ char	*n_char(char c, int n, int *len)
 	str[n--] = '\0';
 	while (n >= 0)
 		str[n--] = c;
-	*len = *len + tmp;
+	if (len)
+		*len = *len + tmp;
 	return (str);
 }
 
-void	fill_array_by_zero(ULL *array)
+void	fill_array_by_zero(unsigned long long *array)
 {
 	int		i;
 

@@ -1,11 +1,1 @@
 bsausage
-gcc -g main.c libftprintf.a -I includes -I libft/includes && ./a.out
-
-
-9 999 9.9 900 004 550
-
-2 147 483 649f|%2147483649 
-
-
-0,09s user 0,07s system 0% cpu 17,015 total
-0,32s user 0,07s system 1% cpu 20,820 total

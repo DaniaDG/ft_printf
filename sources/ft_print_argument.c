@@ -12,10 +12,17 @@
 
 #include "ft_printf.h"
 
-int		ft_print_argument(va_list arg_ptr, t_f *f)
+static int	n_case(va_list arg_ptr, t_f *f)
 {
 	int		*n;
 
+	n = (int *)va_arg(arg_ptr, int *);
+	*n = f->res;
+	return (0);
+}
+
+int			ft_print_argument(va_list arg_ptr, t_f *f)
+{
 	if (f->flags->conversion == 'd' || f->flags->conversion == 'i')
 		return (di_case(arg_ptr, f));
 	if (f->flags->conversion == 'u')
@@ -35,9 +42,6 @@ int		ft_print_argument(va_list arg_ptr, t_f *f)
 	if (f->flags->conversion == 'c' || f->flags->conversion == '%')
 		return (c_case(arg_ptr, f));
 	if (f->flags->conversion == 'n')
-	{
-		n = (int *)va_arg(arg_ptr, int *);
-		*n = f->res;
-	}
+		return (n_case(arg_ptr, f));
 	return (0);
 }

@@ -46,7 +46,8 @@ static void		ft_round(char *str_ptr, int sign)
 	str = str_ptr;
 	if (*str >= '0' && *str < '5')
 		*str = '\0';
-	else if ((*str > '5' && *str <= '9') || (*str == '5' && check_zeros(str + 1)))
+	else if ((*str > '5' && *str <= '9') ||
+			(*str == '5' && check_zeros(str + 1)))
 	{
 		*str = '\0';
 		str--;

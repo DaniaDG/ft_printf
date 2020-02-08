@@ -43,16 +43,6 @@ void	free_int_struct(t_integer *number)
 	number->sign = 0;
 }
 
-void	free_float_struct(t_float *f_number)
-{
-	ft_memdel((void**)&(f_number->left));
-	ft_memdel((void**)&(f_number->whole_part));
-	ft_memdel((void**)&(f_number->fract_part));
-	ft_memdel((void**)&(f_number->zeros));
-	ft_memdel((void**)&(f_number->right));
-	f_number->sign = 0;
-}
-
 void	free_string_srtuct(t_string *string)
 {
 	ft_memdel((void**)&(string->left));
@@ -72,7 +62,6 @@ void	free_all(t_f *f)
 {
 	ft_memdel((void**)&(f->flags));
 	ft_memdel((void**)&(f->number));
-	ft_memdel((void**)&(f->f_number));
 	ft_memdel((void**)&(f->string));
 	ft_memdel((void**)&(f->character));
 }

@@ -95,8 +95,13 @@ int				get_flags(char *ptr, t_flags *flags, va_list arg_ptr)
 	}
 	if (ft_strchr("%fFcspdiouxXbn", ptr[i]))
 		flags->conversion = ptr[i];
-	if (!flags->precision && !flags->dot &&
-			(flags->conversion == 'f' || flags->conversion == 'F'))
-		flags->precision = 6;
+	if (flags->conversion == 'f' || flags->conversion == 'F')
+	{
+		if ((!flags->precision && !flags->dot) ||
+			(flags->precision < 0 && flags->dot))
+			flags->precision = 6;
+	}
+	if (flags->width < 0)
+		flags->width = 0;
 	return (i + 1);
 }

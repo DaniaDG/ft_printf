@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static char	rem_letter(int rem, int reg)
+static char		rem_letter(int rem, int reg)
 {
 	if (rem >= 10 && rem <= 15)
 	{
@@ -38,7 +38,7 @@ static int		num_of_letters(int value, int base)
 	return (i);
 }
 
-char	*ft_itoa_base(int value, int base, int reg)
+char			*ft_itoa_base(int value, int base, int reg)
 {
 	char	*str;
 	int		len;

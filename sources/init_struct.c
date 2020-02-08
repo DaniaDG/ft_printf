@@ -37,12 +37,4 @@ void	init_f(t_f *f)
 	f->character->c = 0;
 	f->character->wc = 0;
 	f->character->right = NULL;
-	if (!(f->f_number = (t_float*)malloc(sizeof(t_float))))
-		exit(1);
-	f->f_number->sign = 0;
-	f->f_number->left = NULL;
-	f->f_number->right = NULL;
-	f->f_number->whole_part = NULL;
-	f->f_number->fract_part = NULL;
-	f->f_number->zeros = NULL;
 }

@@ -55,7 +55,7 @@ PRINTF_SOURCES_LIST = ft_printf.c ft_print_argument.c ft_itoa_base.c \
 ft_itoa_base_long.c ft_itoa_base_unsigned.c init_struct.c rounding.c\
 get_flags.c free_functions.c print_struct.c get_numbers.c other.c \
 di_case.c xp_case.c o_case.c b_case.c u_case.c f_case.c c_case.c s_case.c \
-put_dot.c multiply.c
+put_dot.c multiply.c convert_float_to_str.c check_zero_nan_inf.c  
 
 #   
 

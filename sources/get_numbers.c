@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int			get_number(va_list arg_ptr, t_f *f)
+int				get_number(va_list arg_ptr, t_f *f)
 {
 	long long		ll_arg;
 
@@ -39,7 +39,7 @@ int			get_number(va_list arg_ptr, t_f *f)
 	return (1);
 }
 
-void		get_unsigned_number(va_list arg_ptr, t_f *f, int base)
+void			get_unsigned_number(va_list arg_ptr, t_f *f, int base)
 {
 	unsigned long long		ull_arg;
 	int						reg;

@@ -12,38 +12,57 @@
 
 #include "libft.h"
 
-int		ft_putwchar(wchar_t c)
+static void	fill_by_zero(char t[4])
 {
-	unsigned int i;
-	char	t[4] = { 0 };
+	t[0] = 0;
+	t[1] = 0;
+	t[2] = 0;
+	t[3] = 0;
+}
+
+static int	convert(wchar_t c)
+{
+	int		i;
+	char	t[4];
 
 	i = 0;
-	if (c < 0x80)
+	fill_by_zero(t);
+	if (c < 0x800)
 	{
-		t[0] = (char) (c & 0x7f);
-		i = 1;
-	}
-	else if (c < 0x800)
-	{
-		t[0] = (char) (((c >> 6) & 0x1f) | 0xc0);
-		t[1] = (char) ((c & 0x3f) | 0x80);
-		i = 2;
+		t[i++] = (char)(((c >> 6) & 0x1f) | 0xc0);
+		t[i++] = (char)((c & 0x3f) | 0x80);
 	}
 	else if (c < 0x10000)
 	{
-		t[0] = (char) (((c >> 12) & 0xf) | 0xe0);
-		t[1] = (char) (((c >> 6 & 0x3f)) | 0x80);
-		t[2] = (char) ((c & 0x3f) | 0x80);
-		i = 3;
+		t[i++] = (char)(((c >> 12) & 0xf) | 0xe0);
+		t[i++] = (char)(((c >> 6 & 0x3f)) | 0x80);
+		t[i++] = (char)((c & 0x3f) | 0x80);
 	}
 	else
 	{
-		t[0] = (char) (((c >> 18) & 0x7) | 0xf0);
-		t[1] = (char) (((c >> 12) & 0x3f) | 0x80);
-		t[2] = (char) (((c >> 6) & 0x3f) | 0x80);
-		t[3] = (char) ((c & 0x3f) | 0x80);
-		i = 4;
+		t[i++] = (char)(((c >> 18) & 0x7) | 0xf0);
+		t[i++] = (char)(((c >> 12) & 0x3f) | 0x80);
+		t[i++] = (char)(((c >> 6) & 0x3f) | 0x80);
+		t[i++] = (char)((c & 0x3f) | 0x80);
 	}
 	write(1, t, i);
 	return (i);
+}
+
+int			ft_putwchar(wchar_t c)
+{
+	char	t;
+
+	if (c == 0)
+	{
+		t = (char)(c & 0x7f);
+		write(1, &t, 0);
+		return (0);
 	}
+	if (c < 0x80)
+	{
+		t = (char)(c & 0x7f);
+		write(1, &t, 1);
+	}
+	return (convert(c));
+}

@@ -15,24 +15,17 @@
 #include <limits.h>
 #include <float.h>
 #include "libft.h"
+#include <locale.h>
 
 #include "ft_printf.h"
 
-#define GREEN	"\033[32m"
-
-
 int		main()
 {
-	int		i;
+	//setlocale(LC_CTYPE, "");
+	//printf("%2lc\\n", L'Й');
 
-	i = 0;
-	while (i < 1000)
-	{
-		ft_printf("%.50Lf,", LDBL_MIN);
-		ft_printf("%.50Lf,", LDBL_MAX);
-		i++;
-	}
-  /*ft_printf("\\n");4,34s user 0,12s system 10% cpu   7,80s user 0,13s system 16% cpu
+
+  ft_printf("\\n");
   ft_printf("%%\\n");
   ft_printf("%d\\n", 42);
   ft_printf("%d%d\\n", 42, 41);
@@ -61,8 +54,13 @@ int		main()
   //ft_printf("%S\\n", L"ݗݜशব");
   ft_printf("%s%s\\n", "test", "test");
   ft_printf("%s%s%s\\n", "test", "test", "test");
-  ft_printf("%lc\\n", 15000);
- // while (1);*/
+  ft_printf("%f", 0.0);
+  ft_printf("%f", 0.0 / 0.0);
+  ft_printf("%f", INFINITY);
+  ft_printf("%.25Lf", 1.546846465465465465465453l);
+  ft_printf("%15lf", 1.4546543);
+  //ft_printf("%lc\\n", 15000);
+ // while (1);
   return (0);
 }
 
