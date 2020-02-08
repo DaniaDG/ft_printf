@@ -67,64 +67,20 @@ void		get_unsigned_number(va_list arg_ptr, t_f *f, int base)
 		f->number->digits = ft_itoa_base_unsigned(ull_arg, base, reg);
 }
 
-/*void		get_hex_number(va_list arg_ptr, t_f *f)
+long double		get_ld_number(va_list arg_ptr, t_f *f)
 {
-	int						reg;
-	unsigned long long		ull_arg;
-
-	reg = f->flags->conversion == 'X' ? 1 : 0;
-	if (f->flags->ll)
-		ull_arg = va_arg(arg_ptr, unsigned long long);
-	else if (f->flags->l)
-		ull_arg = va_arg(arg_ptr, unsigned long);
-	else if (f->flags->h)
-		ull_arg = (unsigned short)va_arg(arg_ptr, unsigned int);
-	else if (f->flags->hh)
-		ull_arg = (unsigned char)va_arg(arg_ptr, unsigned int);
-	else
-		ull_arg = va_arg(arg_ptr, unsigned int);
-	if (!ull_arg && f->flags->dot)
-		f->number->digits = ft_strdup("\0");
-	else
-		f->number->digits = ft_itoa_base_unsigned(ull_arg, 16, reg);
+	if (f->flags->size == LD)
+		return (va_arg(arg_ptr, long double));
+	return ((long double)va_arg(arg_ptr, double));
 }
 
-void		get_oct_number(va_list arg_ptr, t_f *f)
+void			get_adress(va_list arg_ptr, t_f *f)
 {
-	unsigned long long		ull_arg;
+	unsigned long long adress;
 
-	if (f->flags->ll)
-		ull_arg = va_arg(arg_ptr, unsigned long long);
-	else if (f->flags->l)
-		ull_arg = va_arg(arg_ptr, unsigned long);
-	else if (f->flags->h)
-		ull_arg = (unsigned short)va_arg(arg_ptr, unsigned int);
-	else if (f->flags->hh)
-		ull_arg = (unsigned char)va_arg(arg_ptr, unsigned int);
-	else
-		ull_arg = va_arg(arg_ptr, unsigned int);
-	if (!ull_arg && f->flags->dot)
+	adress = (unsigned long long)va_arg(arg_ptr, void*);
+	if (!adress && f->flags->dot)
 		f->number->digits = ft_strdup("\0");
 	else
-		f->number->digits = ft_itoa_base_unsigned(ull_arg, 8, 0);
+		f->number->digits = ft_itoa_base_unsigned(adress, 16, 0);
 }
-
-void		get_bin_number(va_list arg_ptr, t_f *f)
-{
-	unsigned long long		ull_arg;
-
-	if (f->flags->ll)
-		ull_arg = va_arg(arg_ptr, unsigned long long);
-	else if (f->flags->l)
-		ull_arg = va_arg(arg_ptr, unsigned long);
-	else if (f->flags->h)
-		ull_arg = (unsigned short)va_arg(arg_ptr, unsigned int);
-	else if (f->flags->hh)
-		ull_arg = (unsigned char)va_arg(arg_ptr, unsigned int);
-	else
-		ull_arg = va_arg(arg_ptr, unsigned int);
-	if (!ull_arg && f->flags->dot)
-		f->number->digits = ft_strdup("\0");
-	else
-		f->number->digits = ft_itoa_base_unsigned(ull_arg, 2, 0);
-}*/

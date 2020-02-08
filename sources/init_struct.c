@@ -14,6 +14,7 @@
 
 void	init_f(t_f *f)
 {
+	f->res = 0;
 	if (!(f->flags = (t_flags*)malloc(sizeof(t_flags))))
 		exit(1);
 	free_flags(f->flags);

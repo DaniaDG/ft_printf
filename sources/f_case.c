@@ -12,19 +12,7 @@
 
 #include "ft_printf.h"
 
-void	fill_array_by_zero(ULL *array)
-{
-	int		i;
-
-	i = 0;
-	while (i < MAX_RANK)
-	{
-		array[i] = 0;
-		i++;
-	}
-}
-
-void	get_fraction(ULL *rank, unsigned long long fraction)
+void	get_fraction(ULL *rank, ULL fraction)
 {
 	int		i;
 
@@ -68,7 +56,8 @@ char	*convert_to_str(ULL *rank, int exp)
 
 	len = len_digit_str(rank);
 	len_fract = exp < 0 ? -exp : 0;
-	str = (char *)malloc(sizeof(char) * (ft_max(len, len_fract) + 2));
+	if (!(str = (char *)malloc(sizeof(char) * (ft_max(len, len_fract) + 2))))
+		return (NULL);
 	tmp_str = str;
 	*str = '0';
 	str++;
@@ -106,28 +95,46 @@ char	*convert_to_str(ULL *rank, int exp)
 	return (tmp_str);
 }
 
-void	f_width_case(t_f *f, int *len)
+static int		f_width_case(t_f *f)
 {
-	*len += f->number->sign ? 1 : 0;
+	int		len;
+
+	len = ft_strlen(f->number->digits);
+	len += f->number->sign ? 1 : 0;
 	if (f->flags->minus)
-		f->number->right = n_char(' ', f->flags->width - *len, len);
+		f->number->right = n_char(' ', f->flags->width - len, &len);
 	else
 	{
 		if (f->flags->zero)
-			f->number->zeros = n_char('0', f->flags->width - *len, len);
+			f->number->zeros = n_char('0', f->flags->width - len, &len);
 		else
-			f->number->left = n_char(' ', f->flags->width - *len, len);
+			f->number->left = n_char(' ', f->flags->width - len, &len);
+	}
+	print_and_free_int_struct(f->number);
+	free_flags(f->flags);
+	return (len);
+}
+
+static void		get_sign(unsigned char sign, t_f *f)
+{
+	f->number->sign = sign ? '-' : 0;
+	if (!sign)
+	{
+		if (f->flags->space)
+			f->number->sign = ' ';
+		if (f->flags->plus)
+			f->number->sign = '+';
 	}
 }
 
-int		check_special_numbers(long double number, t_f *f)
+int		check_special_numbers(t_ext_format number, t_f *f)
 {
 	char	*str;
 	int		bla;
 
 	str = NULL;
 	bla = 0;
-	if (number == 0)
+	if (number.ld == 0)
 	{
 		if (f->flags->precision)
 		{
@@ -140,21 +147,21 @@ int		check_special_numbers(long double number, t_f *f)
 			f->number->digits = ft_strdup("0");
 		return (1);
 	}
-	else if (number != number)
+	else if (number.ld != number.ld)
 	{
 		f->number->digits = ft_strdup("nan");
 		f->number->sign = 0;
 		return (1);
 	}
-	else if (number == HUGE_VALF || number == -HUGE_VALF)
+	else if (number.ld == HUGE_VALF || number.ld == -HUGE_VALF)
 	{
-		f->number->digits = ft_strdup("inf");
+		f->number->digits = ft_strdup(f->flags->conversion == 'f' ? "inf" : "INF");
 		return (1);
 	}
 	return (0);
 }
 
-int		print_nan(t_f *f)
+static int		print_nan(t_f *f)
 {
 	int		len;
 
@@ -168,52 +175,44 @@ int		print_nan(t_f *f)
 	return (len);
 }
 
+static int		zero_case(char *str, t_f *f)
+{
+	if (*str == '0' && ft_strlen(str) == 1)
+	{
+		if (f->flags->sharp && !f->flags->precision)
+			f->number->digits = ft_strdup("0.");
+		else
+			f->number->digits = ft_strdup("0");
+		return (1);
+	}
+	return (0);
+}
+
 int		f_case(va_list arg_ptr, t_f *f)
 {
 	ULL					rank[MAX_RANK];
-	union union_type	number;
+	t_ext_format		number;
 	int					exp;
-	int					len = 0;
 	char				*str;
 
 	fill_array_by_zero(rank);
-	if (f->flags->size == LD)
-		number.ld = va_arg(arg_ptr, long double);
-	else
-		number.ld = (long double)va_arg(arg_ptr, double);
-	f->number->sign = number.part.sign ? '-' : 0;
-	if (!number.part.sign)
-	{
-		if (f->flags->space)
-			f->number->sign = ' ';
-		if (f->flags->plus)
-			f->number->sign = '+';
-	}
+	number.ld = get_ld_number(arg_ptr, f);
+	get_sign(number.part.sign, f);
 	exp = number.part.exponent - 16383 - 63;
-	if (!(check_special_numbers(number.ld, f)))
+	if (!(check_special_numbers(number, f)))
 	{
 		get_fraction(rank, number.part.fraction);
 		multiply(rank, exp);
-		str = convert_to_str(rank, exp);
-		//printf("str = %s\n", str);
+		if (!(str = convert_to_str(rank, exp)))
+			return (0);
 		rounding(str, exp, f);
-		if (*str == '0' && ft_strlen(str) == 1)
-		{
-			if (f->flags->sharp && !f->flags->precision)
-				f->number->digits = ft_strdup("0.");
-			else
-				f->number->digits = ft_strdup("0");
-		}
-		else
+		if (!(zero_case(str, f)))
 			put_dot(str, exp, f);
+		ft_memdel((void**)&str);
 	}
-	if (f->number->digits[0] == 'n' || f->number->digits[0] == 'i')
+	if (f->number->digits[0] == 'n' || f->number->digits[0] == 'i' ||
+			f->number->digits[0] == 'I')
 		return (print_nan(f));
-	len = ft_strlen(f->number->digits);
-	f_width_case(f, &len);
-	print_and_free_int_struct(f->number);
-	free_flags(f->flags);
-	ft_memdel((void**)&str);
-	return (len);
+	return (f_width_case(f));
 }
 

@@ -27,9 +27,18 @@ static void		flags_check(char *ptr, t_flags *flags, va_list arg_ptr)
 	if (*ptr == '#')
 		flags->sharp = 1;
 	if (*ptr == '*' && !flags->dot)
-		flags->width = va_arg(arg_ptr, int);
+	{
+		if ((flags->width = va_arg(arg_ptr, int)) < 0)
+		{
+			flags->width *= -1;
+			flags->minus = 1;
+		}
+	}
 	if (*ptr == '*' && flags->dot)
-		flags->precision = va_arg(arg_ptr, int);
+	{
+		if ((flags->precision = va_arg(arg_ptr, int)) < 0)
+			flags->dot = 0;
+	}
 }
 
 static void		size_check(char *ptr, t_flags *flags)
@@ -84,9 +93,10 @@ int				get_flags(char *ptr, t_flags *flags, va_list arg_ptr)
 		size_check(&ptr[i], flags);
 		i++;
 	}
-	if (ft_strchr("%fcspdiouxXbn", ptr[i]))
+	if (ft_strchr("%fFcspdiouxXbn", ptr[i]))
 		flags->conversion = ptr[i];
-	if (!flags->precision && flags->conversion == 'f' && !flags->dot)
+	if (!flags->precision && !flags->dot &&
+			(flags->conversion == 'f' || flags->conversion == 'F'))
 		flags->precision = 6;
 	return (i + 1);
 }

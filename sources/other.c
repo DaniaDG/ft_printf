@@ -34,10 +34,23 @@ char	*n_char(char c, int n, int *len)
 	if (n <= 0)
 		return (NULL);
 	tmp = n;
-	str = (char *)malloc(sizeof(char) * (n + 1));
+	if (!(str = (char *)malloc(sizeof(char) * (n + 1))))
+		return (NULL);
 	str[n--] = '\0';
 	while (n >= 0)
 		str[n--] = c;
 	*len = *len + tmp;
 	return (str);
+}
+
+void	fill_array_by_zero(ULL *array)
+{
+	int		i;
+
+	i = 0;
+	while (i < MAX_RANK)
+	{
+		array[i] = 0;
+		i++;
+	}
 }

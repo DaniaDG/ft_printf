@@ -67,3 +67,12 @@ void	free_char_srtuct(t_character *character)
 	character->c = 0;
 	character->wc = 0;
 }
+
+void	free_all(t_f *f)
+{
+	ft_memdel((void**)&(f->flags));
+	ft_memdel((void**)&(f->number));
+	ft_memdel((void**)&(f->f_number));
+	ft_memdel((void**)&(f->string));
+	ft_memdel((void**)&(f->character));
+}
