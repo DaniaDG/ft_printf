@@ -130,7 +130,7 @@ int							f_case(va_list arg_ptr, t_f *f);
 int							s_case(va_list arg_ptr, t_f *f);
 int							c_case(va_list arg_ptr, t_f *f);
 char						*n_char(char c, int n, int *len);
-char						*ft_itoa_base(int value, int base, int up);
+
 char						*ft_itoa_base_long(long long value, int base,
 																int up);
 char						*ft_itoa_base_unsigned(unsigned long long value,

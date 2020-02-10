@@ -24,8 +24,8 @@ int		main()
 	//setlocale(LC_CTYPE, "");
 	//printf("%2lc\\n", L'Й');
 
-	ft_printf("%-070.10f\n", 1.123456);
-	printf("%-070.10f\n", 1.123456);
+	ft_printf("blablabla%-070.10f\n", 1.123456);
+	//printf("%-070.10f\n", 1.123456);
 
   /*ft_printf("\\n");
   ft_printf("%%\\n");
