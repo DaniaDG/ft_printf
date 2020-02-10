@@ -45,13 +45,7 @@ typedef struct				s_flags
 	int		space;
 	int		sharp;
 	int		percent;
-	int		h;
-	int		hh;
-	int		l;
-	int		ll;
-	int		lf;
 	int		size;
-	int		asterisk;
 	char	conversion;
 }							t_flags;
 
@@ -76,6 +70,7 @@ typedef struct				s_character
 {
 	char	*left;
 	char	c;
+	char	wc_str[4];
 	wchar_t	wc;
 	char	*right;
 }							t_character;

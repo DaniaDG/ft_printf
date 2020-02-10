@@ -23,13 +23,7 @@ void	free_flags(t_flags *flags)
 	flags->space = 0;
 	flags->sharp = 0;
 	flags->percent = 0;
-	flags->h = 0;
-	flags->hh = 0;
-	flags->l = 0;
-	flags->ll = 0;
-	flags->lf = 0;
 	flags->size = 0;
-	flags->asterisk = 0;
 	flags->conversion = 0;
 }
 
@@ -56,6 +50,7 @@ void	free_char_srtuct(t_character *character)
 	ft_memdel((void**)&character->right);
 	character->c = 0;
 	character->wc = 0;
+	ft_memset(character->wc_str, 0, 4);
 }
 
 void	free_all(t_f *f)

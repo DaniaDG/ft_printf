@@ -36,5 +36,6 @@ void	init_f(t_f *f)
 	f->character->left = NULL;
 	f->character->c = 0;
 	f->character->wc = 0;
+	ft_memset(f->character->wc_str, 0, 4);
 	f->character->right = NULL;
 }

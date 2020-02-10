@@ -16,7 +16,8 @@ static int	n_case(va_list arg_ptr, t_f *f)
 {
 	int		*n;
 
-	n = (int *)va_arg(arg_ptr, int *);
+	if (!(n = (int *)va_arg(arg_ptr, int *)))
+		return (0);
 	*n = f->res;
 	return (0);
 }
